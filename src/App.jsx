@@ -6,6 +6,7 @@ import WithOutnavbar from './layouts/WithOutnavbar';
 import Signin from './pages/auth/Signin'
 import Signup from './pages/auth/Signup'
 import Home from './pages/home'
+import Meeting from './pages/meeting';
 import About from './pages/about'
 import Users from './pages/users'
 
@@ -19,6 +20,7 @@ function App() {
         </Route>
         <Route element={<WithNavbar/>}>
           <Route path='/' element={<Home/>}/>
+          <Route path='/meeting' element={<Meeting/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='/users' element={<Users/>}/>
         </Route>
