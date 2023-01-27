@@ -29,12 +29,12 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to="/meeting" className="nav-link">
+                <Link to="/meetings" className="nav-link">
                   <i className="nav-icon fas fa-calendar"></i>
                   <p>Meetings</p>
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/about" className="nav-link">
                 <i className="nav-icon fas fa-address-card"></i>
                   <p>About</p>
@@ -45,7 +45,7 @@ export default function Sidebar() {
                 <i className="nav-icon fas fa-users"></i>
                   <p>Users</p>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>
