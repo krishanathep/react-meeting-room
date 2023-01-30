@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function view() {
     return (
@@ -29,6 +30,7 @@ export default function view() {
                       <h2>Title</h2>
                       <p>Start</p>
                       <p>End</p>
+                      <Link to='/meetings' className='btn btn-danger float-right' >Cancel</Link>
                     </div>
                   </div>
                 </div>

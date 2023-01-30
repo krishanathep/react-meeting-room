@@ -10,11 +10,12 @@ export default function meeting() {
   const navigate = useNavigate();
 
   const handleSelectMeeting = (event) => {
-      navigate('/meeting/'+event.id)
+      navigate('view/'+event.id)
     }
 
   const handleSelectSlot = ({start, end}) => {
-    alert(start + end)
+    //alert(start + end)
+    navigate('create')
   }
 
 
