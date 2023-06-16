@@ -9,13 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.13",
+    "@mantine/hooks": "^6.0.13",
     "axios": "^1.2.1",
+    "mantine-datatable": "^2.6.1",
     "react": "^18.2.0",
     "react-big-calendar": "^1.5.2",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.6.1",
-    "react-table": "^7.8.0",
-    "styled-components": "^5.3.6"
+    "react-router-dom": "^6.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",

@@ -9,16 +9,15 @@ import Home from './pages/home'
 import Meeting from './pages/meeting';
 import MeetingVew from './pages/meeting/view'
 import MeetingCreate from './pages/meeting/create'
-import About from './pages/about'
-import Users from './pages/users'
+import Blogs from './pages/blogs'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route element={<WithOutnavbar/>}>
-          <Route path='/signin' element={<Signin/>}/>
-          <Route path='/signup' element={<Signup/>}/>
+          <Route path='/auth/signin' element={<Signin/>}/>
+          <Route path='/auth/signup' element={<Signup/>}/>
         </Route>
         <Route element={<WithNavbar/>}>
           <Route path='/' element={<Home/>}/>
@@ -26,8 +25,7 @@ function App() {
           <Route path='/meetings/view/:id' element={<MeetingVew/>}/>
           <Route path='/meetings/create' element={<MeetingCreate/>}/>
 
-          <Route path='/about' element={<About/>}/>
-          <Route path='/users' element={<Users/>}/>
+          <Route path='/blogs' element={<Blogs/>}/>
         </Route>
       </Routes>
     </Router>

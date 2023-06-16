@@ -34,6 +34,12 @@ export default function Sidebar() {
                   <p>Meetings</p>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/blogs" className="nav-link">
+                  <i className="nav-icon fas fa-file"></i>
+                  <p>Blogs</p>
+                </Link>
+              </li>
               {/* <li className="nav-item">
                 <Link to="/about" className="nav-link">
                 <i className="nav-icon fas fa-address-card"></i>
