@@ -1,11 +1,37 @@
 import React from "react";
 import { useForm } from "react-hook-form"
-import { Link } from 'react-router-dom'
+import { useSignIn } from 'react-auth-kit'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signin() {
+  const navigate = useNavigate()
+  const signIn = useSignIn()
   const { register, handleSubmit,  formState: { errors } } = useForm();
 
-  const onSubmit = data => console.log(JSON.stringify(data));
+  const onSubmit = async data => {
+    try {
+      await axios.post('https://www.melivecode.com/api/login', data)
+        .then((res)=>{
+          if(res.data.status === 'ok') {
+            if(signIn({
+              token: res.data.accessToken,
+              expiresIn: res.data.expiresIn,
+              authState: res.data.user,
+              tokenType: "Bearer",
+            })){
+                //console.log(JSON.stringify(res.data.expiresIn))
+                console.log('ยิดีต้อนรับเข้าสู่ระบบ '+res.data.user.username)
+                navigate('/')
+            }
+          } else {
+            console.log('เกิดข้อผิดพลาด!!!')
+          }
+        })
+    } catch(error){
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -20,9 +46,9 @@ export default function Signin() {
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {errors.name && <span className="text-danger">This username field is required</span>}
+              {errors.username && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("name", { required: true })} />
+                <input className="form-control" type="email" {...register("username", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />

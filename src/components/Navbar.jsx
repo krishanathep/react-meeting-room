@@ -1,6 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useSignOut } from 'react-auth-kit'
 
 export default function Navbar() {
+  const navigate = useNavigate()
+  const signOut = useSignOut()
+
+  const handleSignOut = () => {
+    signOut()
+    navigate('/auth/signin')
+  }
+
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
       <ul className="navbar-nav">
@@ -13,10 +23,10 @@ export default function Navbar() {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
-            <i className="fas fa-user-circle fa-lg"></i>
+           <i className="fas fa-user-circle fa-lg"></i>
           </a>
           <div className="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-            <a href="#" className="dropdown-item">
+            <a href="#" className="dropdown-item" onClick={handleSignOut}>
               <i className="fas fa-sign-out-alt mr-2"></i> Sign out
             </a>
           </div>
