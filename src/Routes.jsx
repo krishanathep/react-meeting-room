@@ -16,7 +16,7 @@ const RoutesPage = () => {
     <Router>
       <Routes>
         <Route element={<WithOutnavbar />}>
-          <Route path="/auth/signin" element={<Signin />} />
+          <Route exact  path="/auth/signin" element={<Signin />} />
           <Route path="/auth/signup" element={<Signup />} />
         </Route>
         <Route

@@ -1,9 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useSignOut } from 'react-auth-kit'
+import { useSignOut,useAuthUser } from 'react-auth-kit'
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const userDatail = useAuthUser()
   const signOut = useSignOut()
 
   const handleSignOut = () => {
@@ -23,7 +24,7 @@ export default function Navbar() {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
-           <i className="fas fa-user-circle fa-lg"></i>
+           Hello : {userDatail().fname}{' '}<i className="fas fa-user-circle fa-lg"></i>
           </a>
           <div className="dropdown-menu dropdown-menu-sm dropdown-menu-right">
             <a href="#" className="dropdown-item" onClick={handleSignOut}>
