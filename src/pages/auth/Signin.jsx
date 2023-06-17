@@ -1,7 +1,12 @@
 import React from "react";
+import { useForm } from "react-hook-form"
 import { Link } from 'react-router-dom'
 
 export default function Signin() {
+  const { register, handleSubmit,  formState: { errors } } = useForm();
+
+  const onSubmit = data => console.log(JSON.stringify(data));
+
   return (
     <>
       <div className="hold-transition login-page">
@@ -14,25 +19,19 @@ export default function Signin() {
           <div className="card">
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
-              <form action="../../index3.html" method="post">
+              <form onSubmit={handleSubmit(onSubmit)}>
+              {errors.name && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                  <input
-                    type="email"
-                    className="form-control"
-                    placeholder="Email"
-                  />
+                <input className="form-control" type="email" {...register("name", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
                     </div>
                   </div>
                 </div>
+                {errors.password && <span className="text-danger">This password field is required</span>}
                 <div className="input-group mb-3">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                  />
+                <input className="form-control" type="password" {...register("password", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-lock" />
