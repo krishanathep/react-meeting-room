@@ -13,13 +13,11 @@ const blogs = () => {
 
   //edit popup
   const [editShow, setEditShow] = useState(false);
-  const handleEditClose = () => setEditShow(false);
-  const handleEditShow = () => setEditShow(true);
+  const EditClose = () => setEditShow(false);
 
   //view popup
   const [viewShow, setViewShow] = useState(false);
-  const handleViewClose = () => setViewShow(false);
-  const handleViewShow = () => setViewShow(true);
+  const ViewClose = () => setViewShow(false);
 
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
@@ -42,9 +40,19 @@ const blogs = () => {
     getData();
   }, [page]);
 
-  const deleteSubmit = () => {
-    alert("Hello delete!!!");
+  const hanldeDelete = (blogs) => {
+    alert("Hello delete!!! "+blogs._id);
   };
+
+  const handleViewShow = (blogs) => {
+    setViewShow(true)
+    console.log(blogs._id)
+  }
+
+  const handleEditShow = (blogs) => {
+    setEditShow(true)
+    console.log(blogs._id)
+  }
 
   return (
     <>
@@ -99,18 +107,18 @@ const blogs = () => {
                             <>
                               <Button 
                                 variant="primary"  
-                                onClick={handleViewShow}>
+                                onClick={()=>handleViewShow(blogs)}>
                                 <i className="fa fa-eye"></i>
                               </Button>{" "}
                               <Button
                                 variant="info"
-                                onClick={handleEditShow}
+                                onClick={()=>handleEditShow(blogs)}
                               >
                                 <i className="fa fa-edit"></i>
                               </Button>{" "}
                               <Button
                                 variant="danger"
-                                onClick={deleteSubmit}
+                                onClick={()=>hanldeDelete(blogs)}
                               >
                                 <i className="fa fa-trash"></i>
                               </Button>
@@ -144,7 +152,7 @@ const blogs = () => {
                     </Modal>
 
                      {/* Edit Blog Madal */}
-                     <Modal centered show={editShow} onHide={handleEditClose}>
+                     <Modal centered show={editShow}>
                       <Modal.Header>
                         <Modal.Title>Edit blog</Modal.Title>
                       </Modal.Header>
@@ -152,28 +160,28 @@ const blogs = () => {
                         Woohoo, you are reading this text in a modal!
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleEditClose}>
+                        <Button variant="primary" onClick={EditClose}>
                           Save Changes
                         </Button>
-                        <Button variant="secondary" onClick={handleEditClose}>
+                        <Button variant="secondary" onClick={EditClose}>
                           Close
                         </Button>
                       </Modal.Footer>
                     </Modal>
 
                     {/* View Blog Madal */}
-                    <Modal centered show={viewShow} onHide={handleViewClose}>
+                    <Modal centered show={viewShow}>
                       <Modal.Header>
                         <Modal.Title>View blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        Woohoo, you are reading this text in a modal! {blogs._id}
+                        Woohoo, you are reading this text in a modal! { blogs._id }
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleViewClose}>
+                        <Button variant="primary" onClick={ViewClose}>
                           Save Changes
                         </Button>
-                        <Button variant="secondary" onClick={handleViewClose}>
+                        <Button variant="secondary" onClick={ViewClose}>
                           Close
                         </Button>
                       </Modal.Footer>
