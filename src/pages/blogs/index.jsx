@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
-import { Button } from "@mantine/core";
+import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 const blogs = () => {
+  //create popup
+  const [createShow, setCreateShow] = useState(false);
+  const handleCreateClose = () => setCreateShow(false);
+  const handleCreateShow = () => setCreateShow(true);
+
+  //edit popup
+  const [editShow, setEditShow] = useState(false);
+  const handleEditClose = () => setEditShow(false);
+  const handleEditShow = () => setEditShow(true);
+
+  //view popup
+  const [viewShow, setViewShow] = useState(false);
+  const handleViewClose = () => setViewShow(false);
+  const handleViewShow = () => setViewShow(true);
+
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -27,14 +42,6 @@ const blogs = () => {
     getData();
   }, [page]);
 
-  const viewSubmit = () => {
-    alert("Hello view!!!");
-  };
-
-  const editSubmit = () => {
-    alert("Hello edit!!!");
-  };
-
   const deleteSubmit = () => {
     alert("Hello delete!!!");
   };
@@ -46,14 +53,14 @@ const blogs = () => {
           <div className="container-fluid">
             <div className="row mb-2">
               <div className="col-sm-6">
-                <h1 className="m-0">Meetings</h1>
+                <h1 className="m-0">Blogs post</h1>
               </div>
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item">
                     <a href="#">Home</a>
                   </li>
-                  <li className="breadcrumb-item active">Mettings</li>
+                  <li className="breadcrumb-item active">Blogs</li>
                 </ol>
               </div>
             </div>
@@ -66,11 +73,12 @@ const blogs = () => {
                 <div className="card card-outline card-primary">
                   <div className="card-body">
                     <button
-                      className="btn btn-primary mb-3"
-                      
+                      className="btn btn-success mb-3"
+                      onClick={handleCreateShow}
                     >
-                      <i className="fa fa-plus"></i> Create blog
+                      <i className="fa fa-plus"></i>{' '}Create blog
                     </button>
+
                     <DataTable
                       withBorder
                       highlightOnHover
@@ -86,23 +94,23 @@ const blogs = () => {
                         {
                           accessor: "actions",
                           title: "Actions",
-                          width: 180,
-                          render: () => (
+                          width: 200,
+                          render: (blogs) => (
                             <>
-                              <Button onClick={viewSubmit} size="xs">
+                              <Button 
+                                variant="primary"  
+                                onClick={handleViewShow}>
                                 <i className="fa fa-eye"></i>
                               </Button>{" "}
                               <Button
-                                onClick={editSubmit}
-                                size="xs"
-                                color="green"
+                                variant="info"
+                                onClick={handleEditShow}
                               >
                                 <i className="fa fa-edit"></i>
                               </Button>{" "}
                               <Button
+                                variant="danger"
                                 onClick={deleteSubmit}
-                                size="xs"
-                                color="red"
                               >
                                 <i className="fa fa-trash"></i>
                               </Button>
@@ -117,6 +125,60 @@ const blogs = () => {
                       page={page}
                       onPageChange={(p) => setPage(p)}
                     />
+                    {/* Create Blog Madal */}
+                    <Modal centered show={createShow} onHide={handleCreateClose}>
+                      <Modal.Header>
+                        <Modal.Title>Create blog</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        Woohoo, you are reading this text in a modal!
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={handleCreateClose}>
+                          Save Changes
+                        </Button>
+                        <Button variant="secondary" onClick={handleCreateClose}>
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+
+                     {/* Edit Blog Madal */}
+                     <Modal centered show={editShow} onHide={handleEditClose}>
+                      <Modal.Header>
+                        <Modal.Title>Edit blog</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        Woohoo, you are reading this text in a modal!
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={handleEditClose}>
+                          Save Changes
+                        </Button>
+                        <Button variant="secondary" onClick={handleEditClose}>
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+
+                    {/* View Blog Madal */}
+                    <Modal centered show={viewShow} onHide={handleViewClose}>
+                      <Modal.Header>
+                        <Modal.Title>View blog</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        Woohoo, you are reading this text in a modal! {blogs._id}
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="primary" onClick={handleViewClose}>
+                          Save Changes
+                        </Button>
+                        <Button variant="secondary" onClick={handleViewClose}>
+                          Close
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+
                   </div>
                 </div>
               </div>

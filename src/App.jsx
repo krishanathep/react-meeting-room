@@ -1,5 +1,6 @@
 import React from "react";
 import { AuthProvider } from "react-auth-kit";
+import "./App.css";
 import Routes from "./Routes";
 
 function App() {

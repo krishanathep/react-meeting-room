@@ -25,7 +25,7 @@ export default function Sidebar() {
               <li className="nav-item">
                 <Link to="/" className="nav-link">
                   <i className="nav-icon fas fa-home"></i>
-                  <p>Home</p>
+                  <p>Dashboard</p>
                 </Link>
               </li>
               <li className="nav-item">
@@ -37,7 +37,7 @@ export default function Sidebar() {
               <li className="nav-item">
                 <Link to="/blogs" className="nav-link">
                   <i className="nav-icon fas fa-file"></i>
-                  <p>Blogs</p>
+                  <p>Blogs post</p>
                 </Link>
               </li>
               {/* <li className="nav-item">
