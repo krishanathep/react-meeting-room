@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
-import { Modal, Button, Col, Form, InputGroup, Row } from "react-bootstrap";
-import { useForm } from "react-hook-form"
-import Swal from 'sweetalert2'
+import { Modal, Button, Col, Form, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import axios from "axios";
 
 const PAGE_SIZE = 5;
@@ -20,18 +20,24 @@ const blogs = () => {
   const [viewShow, setViewShow] = useState(false);
   const ViewClose = () => setViewShow(false);
 
+  //id for edit
+  const [editid, setEditId] = useState('')
+
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState(blogs.slice(0, PAGE_SIZE));
-  
-  const { register, handleSubmit,  formState: { errors } } = useForm();
-  
+
+  const {
+    register,
+    handleSubmit,reset,
+    formState: { errors },
+  } = useForm();
+
   //blogs state
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [validated, setValidated] = useState(false);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [author, setAuthor] = useState("");
 
   const getData = async () => {
     const from = (page - 1) * PAGE_SIZE;
@@ -51,52 +57,87 @@ const blogs = () => {
 
   const hanldeDelete = (blogs) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      axios.delete('https://express-mongodb-api-server.onrender.com/api/blogs/'+ blogs._id)
-        .then((res)=>{
-          console.log(res)
-          getData()
-        })
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        axios
+          .delete(
+            "https://express-mongodb-api-server.onrender.com/api/blogs/" +
+              blogs._id
+          )
+          .then((res) => {
+            console.log(res);
+            getData();
+          });
       }
-    })
+    });
   };
 
-  const handleViewShow = (blogs) => {
-    setViewShow(true)
-    console.log(blogs._id)
-  }
+  const handleViewShow = async (blogs) => {
+    setViewShow(true);
 
-  const handleEditShow = (blogs) => {
-    setEditShow(true)
-    console.log(blogs._id)
-  }
+    await axios
+      .get(
+        "https://express-mongodb-api-server.onrender.com/api/blogs/" + blogs._id
+      )
+      .then((res) => {
+        console.log(res);
+        setTitle(res.data.title);
+        setContent(res.data.content);
+        setAuthor(res.data.author);
+      });
+  };
 
-  const handleCreate = () => {
-    setCreateShow(true)
-  }
-
-  const handleCreateSubmit = async data => {
-    await axios.post('https://express-mongodb-api-server.onrender.com/api/blogs', data)
+  const handleEditShow = async (blogs) => {
+    setEditShow(true);
+    await axios.get('https://express-mongodb-api-server.onrender.com/api/blogs/'+ blogs._id)
       .then((res)=>{
-        console.log(res.data)
-        getData()
-        setCreateShow(false)
+        setEditId(res.data._id)
+        console.log(res)
+        reset({
+          title: res.data.title,
+          content: res.data.content,
+          author: res.data.author,
+        })
       })
-      .catch((error)=>{console.log(error)})
-  } 
+  };
+
+  const handleEditSubmit = async (data) => {
+    await axios
+      .put("https://express-mongodb-api-server.onrender.com/api/blogs/"+ editid , data)
+      .then((res) => {
+        console.log(res.data);
+        getData();
+        setEditShow(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const handleCreateShow = () => {
+    setCreateShow(true);
+  };
+
+  const handleCreateSubmit = async (data) => {
+    await axios
+      .post("https://express-mongodb-api-server.onrender.com/api/blogs", data)
+      .then((res) => {
+        console.log(res.data);
+        getData();
+        setCreateShow(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -126,9 +167,9 @@ const blogs = () => {
                   <div className="card-body">
                     <button
                       className="btn btn-success mb-3"
-                      onClick={handleCreate}
+                      onClick={handleCreateShow}
                     >
-                      <i className="fa fa-plus"></i>{' '}Create blog
+                      <i className="fa fa-plus"></i> Create blog
                     </button>
 
                     <DataTable
@@ -150,20 +191,21 @@ const blogs = () => {
                           width: 200,
                           render: (blogs) => (
                             <>
-                              <Button 
-                                variant="primary"  
-                                onClick={()=>handleViewShow(blogs)}>
+                              <Button
+                                variant="primary"
+                                onClick={() => handleViewShow(blogs)}
+                              >
                                 <i className="fa fa-eye"></i>
                               </Button>{" "}
                               <Button
                                 variant="info"
-                                onClick={()=>handleEditShow(blogs)}
+                                onClick={() => handleEditShow(blogs)}
                               >
                                 <i className="fa fa-edit"></i>
                               </Button>{" "}
                               <Button
                                 variant="danger"
-                                onClick={()=>hanldeDelete(blogs)}
+                                onClick={() => hanldeDelete(blogs)}
                               >
                                 <i className="fa fa-trash"></i>
                               </Button>
@@ -191,24 +233,30 @@ const blogs = () => {
                               <Form.Control
                                 {...register("title", { required: true })}
                               />
+                              {errors.title && <span className="text-danger">This field is required</span>}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Content</Form.Label>
                               <Form.Control
-                              {...register("content", { required: true })}
+                                {...register("content", { required: true })}
                               />
+                              {errors.content && <span className="text-danger">This field is required</span>}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Author</Form.Label>
                               <Form.Control
-                              {...register("author", { required: true })}
+                                {...register("author", { required: true })}
                               />
+                              {errors.author && <span className="text-danger">This field is required</span>}
                             </Form.Group>
                           </Row>
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleSubmit(handleCreateSubmit)}>
+                        <Button
+                          variant="primary"
+                          onClick={handleSubmit(handleCreateSubmit)}
+                        >
                           Save Changes
                         </Button>
                         <Button variant="secondary" onClick={CreateClose}>
@@ -217,16 +265,40 @@ const blogs = () => {
                       </Modal.Footer>
                     </Modal>
 
-                     {/* Edit Blog Madal */}
-                     <Modal centered show={editShow}>
+                    {/* Edit Blog Madal */}
+                    <Modal centered show={editShow}>
                       <Modal.Header>
                         <Modal.Title>Edit blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        Woohoo, you are reading this text in a modal!
+                      <Form>
+                          <Row>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Title</Form.Label>
+                              <Form.Control
+                               {...register("title", { required: true })}
+                              />
+                              {errors.title && <span className="text-danger">This field is required</span>}
+                            </Form.Group>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Content</Form.Label>
+                              <Form.Control
+                                {...register("content", { required: true })}
+                              />
+                              {errors.content && <span className="text-danger">This field is required</span>}
+                            </Form.Group>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Author</Form.Label>
+                              <Form.Control           
+                                {...register("author", { required: true })}
+                              />
+                              {errors.author && <span className="text-danger">This field is required</span>}
+                            </Form.Group>
+                          </Row>
+                        </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={EditClose}>
+                        <Button variant="primary" onClick={handleSubmit(handleEditSubmit)}>
                           Save Changes
                         </Button>
                         <Button variant="secondary" onClick={EditClose}>
@@ -241,18 +313,22 @@ const blogs = () => {
                         <Modal.Title>View blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        Woohoo, you are reading this text in a modal! { blogs._id }
+                        <Form.Group>
+                          <Form.Label>Title</Form.Label> : {title}
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Label>Content</Form.Label> : {content}
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Label>Author</Form.Label> : {author}
+                        </Form.Group>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={ViewClose}>
-                          Save Changes
-                        </Button>
                         <Button variant="secondary" onClick={ViewClose}>
                           Close
                         </Button>
                       </Modal.Footer>
                     </Modal>
-
                   </div>
                 </div>
               </div>
