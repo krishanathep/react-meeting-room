@@ -3,6 +3,7 @@ import { DataTable } from "mantine-datatable";
 import { Modal, Button, Col, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 import axios from "axios";
 
 const PAGE_SIZE = 5;
@@ -21,7 +22,7 @@ const blogs = () => {
   const ViewClose = () => setViewShow(false);
 
   //id for edit
-  const [editid, setEditId] = useState('')
+  const [editid, setEditId] = useState("");
 
   const [blogs, setBlogs] = useState([]);
   const [page, setPage] = useState(1);
@@ -30,7 +31,8 @@ const blogs = () => {
 
   const {
     register,
-    handleSubmit,reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -38,6 +40,7 @@ const blogs = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
+  const [created, setCreated] = useState("");
 
   const getData = async () => {
     const from = (page - 1) * PAGE_SIZE;
@@ -92,26 +95,33 @@ const blogs = () => {
         setTitle(res.data.title);
         setContent(res.data.content);
         setAuthor(res.data.author);
+        setCreated(res.data.createdAt)
       });
   };
 
   const handleEditShow = async (blogs) => {
     setEditShow(true);
-    await axios.get('https://express-mongodb-api-server.onrender.com/api/blogs/'+ blogs._id)
-      .then((res)=>{
-        setEditId(res.data._id)
-        console.log(res)
+    await axios
+      .get(
+        "https://express-mongodb-api-server.onrender.com/api/blogs/" + blogs._id
+      )
+      .then((res) => {
+        setEditId(res.data._id);
+        console.log(res);
         reset({
           title: res.data.title,
           content: res.data.content,
           author: res.data.author,
-        })
-      })
+        });
+      });
   };
 
   const handleEditSubmit = async (data) => {
     await axios
-      .put("https://express-mongodb-api-server.onrender.com/api/blogs/"+ editid , data)
+      .put(
+        "https://express-mongodb-api-server.onrender.com/api/blogs/" + editid,
+        data
+      )
       .then((res) => {
         console.log(res.data);
         getData();
@@ -120,7 +130,7 @@ const blogs = () => {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const handleCreateShow = () => {
     setCreateShow(true);
@@ -175,6 +185,7 @@ const blogs = () => {
                     <DataTable
                       withBorder
                       striped
+                      fontSize={"md"}
                       verticalSpacing="md"
                       paginationSize="md"
                       withColumnBorders
@@ -184,7 +195,11 @@ const blogs = () => {
                         { accessor: "title" },
                         { accessor: "content" },
                         { accessor: "author" },
-                        { accessor: "createdAt" },
+                        {
+                          accessor: "createdAt",
+                          render: ({ createdAt }) =>
+                            dayjs(createdAt).format("DD-MMMM- YYYY"),
+                        },
                         {
                           accessor: "actions",
                           title: "Actions",
@@ -233,21 +248,33 @@ const blogs = () => {
                               <Form.Control
                                 {...register("title", { required: true })}
                               />
-                              {errors.title && <span className="text-danger">This field is required</span>}
+                              {errors.title && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Content</Form.Label>
                               <Form.Control
                                 {...register("content", { required: true })}
                               />
-                              {errors.content && <span className="text-danger">This field is required</span>}
+                              {errors.content && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Author</Form.Label>
                               <Form.Control
                                 {...register("author", { required: true })}
                               />
-                              {errors.author && <span className="text-danger">This field is required</span>}
+                              {errors.author && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                           </Row>
                         </Form>
@@ -271,34 +298,49 @@ const blogs = () => {
                         <Modal.Title>Edit blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                      <Form>
+                        <Form>
                           <Row>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Title</Form.Label>
                               <Form.Control
-                               {...register("title", { required: true })}
+                                {...register("title", { required: true })}
                               />
-                              {errors.title && <span className="text-danger">This field is required</span>}
+                              {errors.title && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Content</Form.Label>
                               <Form.Control
                                 {...register("content", { required: true })}
                               />
-                              {errors.content && <span className="text-danger">This field is required</span>}
+                              {errors.content && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                             <Form.Group as={Col} md="12">
                               <Form.Label>Author</Form.Label>
-                              <Form.Control           
+                              <Form.Control
                                 {...register("author", { required: true })}
                               />
-                              {errors.author && <span className="text-danger">This field is required</span>}
+                              {errors.author && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </Form.Group>
                           </Row>
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleSubmit(handleEditSubmit)}>
+                        <Button
+                          variant="primary"
+                          onClick={handleSubmit(handleEditSubmit)}
+                        >
                           Save Changes
                         </Button>
                         <Button variant="secondary" onClick={EditClose}>
@@ -321,6 +363,9 @@ const blogs = () => {
                         </Form.Group>
                         <Form.Group>
                           <Form.Label>Author</Form.Label> : {author}
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Label>Created</Form.Label> : { dayjs(created).format("DD-MMMM- YYYY") }
                         </Form.Group>
                       </Modal.Body>
                       <Modal.Footer>
