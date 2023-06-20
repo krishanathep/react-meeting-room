@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form"
+import Swal from 'sweetalert2'
 import axios from "axios";
 
 const PAGE_SIZE = 5;
@@ -8,8 +10,7 @@ const PAGE_SIZE = 5;
 const blogs = () => {
   //create popup
   const [createShow, setCreateShow] = useState(false);
-  const handleCreateClose = () => setCreateShow(false);
-  const handleCreateShow = () => setCreateShow(true);
+  const CreateClose = () => setCreateShow(false);
 
   //edit popup
   const [editShow, setEditShow] = useState(false);
@@ -23,6 +24,14 @@ const blogs = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState(blogs.slice(0, PAGE_SIZE));
+  
+  const { register, handleSubmit,  formState: { errors } } = useForm();
+  
+  //blogs state
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [author, setAuthor] = useState('')
+  const [validated, setValidated] = useState(false);
 
   const getData = async () => {
     const from = (page - 1) * PAGE_SIZE;
@@ -41,7 +50,28 @@ const blogs = () => {
   }, [page]);
 
   const hanldeDelete = (blogs) => {
-    alert("Hello delete!!! "+blogs._id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      axios.delete('https://express-mongodb-api-server.onrender.com/api/blogs/'+ blogs._id)
+        .then((res)=>{
+          console.log(res)
+          getData()
+        })
+      }
+    })
   };
 
   const handleViewShow = (blogs) => {
@@ -53,6 +83,20 @@ const blogs = () => {
     setEditShow(true)
     console.log(blogs._id)
   }
+
+  const handleCreate = () => {
+    setCreateShow(true)
+  }
+
+  const handleCreateSubmit = async data => {
+    await axios.post('https://express-mongodb-api-server.onrender.com/api/blogs', data)
+      .then((res)=>{
+        console.log(res.data)
+        getData()
+        setCreateShow(false)
+      })
+      .catch((error)=>{console.log(error)})
+  } 
 
   return (
     <>
@@ -82,18 +126,19 @@ const blogs = () => {
                   <div className="card-body">
                     <button
                       className="btn btn-success mb-3"
-                      onClick={handleCreateShow}
+                      onClick={handleCreate}
                     >
                       <i className="fa fa-plus"></i>{' '}Create blog
                     </button>
 
                     <DataTable
                       withBorder
-                      highlightOnHover
+                      striped
                       verticalSpacing="md"
                       paginationSize="md"
                       withColumnBorders
                       fetching={loading}
+                      idAccessor="_id"
                       columns={[
                         { accessor: "title" },
                         { accessor: "content" },
@@ -134,18 +179,39 @@ const blogs = () => {
                       onPageChange={(p) => setPage(p)}
                     />
                     {/* Create Blog Madal */}
-                    <Modal centered show={createShow} onHide={handleCreateClose}>
+                    <Modal centered show={createShow}>
                       <Modal.Header>
                         <Modal.Title>Create blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        Woohoo, you are reading this text in a modal!
+                        <Form>
+                          <Row>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Title</Form.Label>
+                              <Form.Control
+                                {...register("title", { required: true })}
+                              />
+                            </Form.Group>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Content</Form.Label>
+                              <Form.Control
+                              {...register("content", { required: true })}
+                              />
+                            </Form.Group>
+                            <Form.Group as={Col} md="12">
+                              <Form.Label>Author</Form.Label>
+                              <Form.Control
+                              {...register("author", { required: true })}
+                              />
+                            </Form.Group>
+                          </Row>
+                        </Form>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="primary" onClick={handleCreateClose}>
+                        <Button variant="primary" onClick={handleSubmit(handleCreateSubmit)}>
                           Save Changes
                         </Button>
-                        <Button variant="secondary" onClick={handleCreateClose}>
+                        <Button variant="secondary" onClick={CreateClose}>
                           Close
                         </Button>
                       </Modal.Footer>
