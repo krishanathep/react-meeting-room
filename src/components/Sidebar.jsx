@@ -7,7 +7,6 @@ export default function Sidebar() {
       <aside className="main-sidebar nav-pills sidebar-dark-primary sidebar-no-expand elevation-1">
         <Link to="/" className="brand-link">
           <img
-            //src={ process.env.PUBLIC_URL+ "/dist/img/AdminLTELogo.png"}
             src="/assets/dist/img/AdminLTELogo.png"
             alt="AdminLTE Logo"
             className="brand-image img-circle elevation-1"
@@ -41,18 +40,6 @@ export default function Sidebar() {
                   <p>Blogs post</p>
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link to="/about" className="nav-link">
-                <i className="nav-icon fas fa-address-card"></i>
-                  <p>About</p>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/users" className="nav-link">
-                <i className="nav-icon fas fa-users"></i>
-                  <p>Users</p>
-                </Link>
-              </li> */}
             </ul>
           </nav>
         </div>
