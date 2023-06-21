@@ -8,7 +8,7 @@ export default function Sidebar() {
         <Link to="/" className="brand-link">
           <img
             //src={ process.env.PUBLIC_URL+ "/dist/img/AdminLTELogo.png"}
-            src="/src/assets/dist/img/AdminLTELogo.png"
+            src="/assets/dist/img/AdminLTELogo.png"
             alt="AdminLTE Logo"
             className="brand-image img-circle elevation-1"
             style={{ opacity: ".8" }}
