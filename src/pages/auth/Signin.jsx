@@ -11,7 +11,7 @@ export default function Signin() {
 
   const onSubmit = async data => {
     try {
-      await axios.post('https://full-stack-app.com/laravel_auth_jwt/public/api/login', data)
+      await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/login', data)
         .then((res)=>{
 
           const token = res.data.access_token

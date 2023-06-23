@@ -8,7 +8,7 @@ export default function Signup() {
   const { register, handleSubmit,  formState: { errors } } = useForm();
 
   const onSubmit = async data => {
-    await axios.post('https://full-stack-app.com/laravel_auth_jwt/public/api/register', data)
+    await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/register', data)
       .then((res)=>{
         console.log(res)
         navigate('/auth/signin')
