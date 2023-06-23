@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <>
     <footer className="main-footer">
-      <div className="float-right d-none d-sm-inline">Version 1.0.0</div>
+      <div className="float-right d-none d-sm-inline">Powered by <a href="https://m.do.co/c/a2e59adf8482" target="_blank">DigitalOcean</a>.</div>
       <strong>
         Copyright © 2022-2023 <a href="https://full-stack-app.com">Full-Stack-App Co.,Ltd</a>.
       </strong>{" "}

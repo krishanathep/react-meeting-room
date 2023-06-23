@@ -11,18 +11,19 @@ export default function Signin() {
 
   const onSubmit = async data => {
     try {
-      await axios.post('https://www.melivecode.com/api/login', data)
+      await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/login', data)
         .then((res)=>{
-          if(res.data.status === 'ok') {
+
+          const token = res.data.access_token
+
+          if(token != null) {
             if(signIn({
-              token: res.data.accessToken,
-              expiresIn: res.data.expiresIn,
+              token: res.data.access_token,
+              expiresIn: res.data.expires_in,
               authState: res.data.user,
               tokenType: "Bearer",
             })){
-                //console.log(JSON.stringify(res.data.expiresIn))
-                console.log('ยิดีต้อนรับเข้าสู่ระบบ '+res.data.user.username)
-                navigate('/')
+              navigate('/')
             }
           } else {
             console.log('เกิดข้อผิดพลาด!!!')
@@ -46,9 +47,9 @@ export default function Signin() {
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {errors.username && <span className="text-danger">This username field is required</span>}
+              {errors.email && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("username", { required: true })} />
+                <input className="form-control" type="email" {...register("email", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
@@ -75,7 +76,7 @@ export default function Signin() {
                 </div>
               </form>
               <p className="mb-0 mt-2">
-                <Link to={'/signup'} className="text-center">
+                <Link to={'/auth/signup'} className="text-center">
                   Register a new membership
                 </Link>
               </p>

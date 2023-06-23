@@ -1,9 +1,22 @@
 import React from "react";
-import { Link } from 'react-router-dom'
+import { useForm } from "react-hook-form"
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Signup() {
+  const navigate = useNavigate()
+  const { register, handleSubmit,  formState: { errors } } = useForm();
+
+  const onSubmit = async data => {
+    await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/register', data)
+      .then((res)=>{
+        console.log(res)
+        navigate('/auth/signin')
+      })
+  }
+
   return (
-    <div class="hold-transition register-page">
+    <div className="hold-transition register-page">
     <div className="register-box">
       <div className="register-logo">
         <a href="#">
@@ -13,13 +26,9 @@ export default function Signup() {
       <div className="card">
         <div className="card-body register-card-body">
           <p className="login-box-msg">Register a new membership</p>
-          <form action="../../index.html" method="post">
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="input-group mb-3">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Full name"
-              />
+            <input className="form-control" type="text" {...register("name", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-user" />
@@ -27,11 +36,7 @@ export default function Signup() {
               </div>
             </div>
             <div className="input-group mb-3">
-              <input
-                type="email"
-                className="form-control"
-                placeholder="Email"
-              />
+            <input className="form-control" type="email" {...register("email", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-envelope" />
@@ -39,11 +44,7 @@ export default function Signup() {
               </div>
             </div>
             <div className="input-group mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Password"
-              />
+            <input className="form-control" type="password" {...register("password", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-lock" />
@@ -51,11 +52,7 @@ export default function Signup() {
               </div>
             </div>
             <div className="input-group mb-3">
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Retype password"
-              />
+            <input className="form-control" type="password" {...register("password_confirmation", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-lock" />
@@ -73,7 +70,7 @@ export default function Signup() {
             </div>
           </form>
           <div className="mt-2">
-          <Link to={'/signin'} className="text-center">
+          <Link to={'/auth/signin'} className="text-center">
             I already have a membership
           </Link>
           </div>

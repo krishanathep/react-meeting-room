@@ -24,7 +24,7 @@ export default function Navbar() {
       <ul className="navbar-nav ml-auto">
         <li className="nav-item dropdown">
           <a className="nav-link" data-toggle="dropdown" href="#">
-           Hello : {userDatail().fname}{' '}<i className="fas fa-user-circle fa-lg"></i>
+           Hello : {userDatail().name}{' '}<i className="fas fa-user-circle fa-lg"></i>
           </a>
           <div className="dropdown-menu dropdown-menu-sm dropdown-menu-right">
             <a href="#" className="dropdown-item" onClick={handleSignOut}>
