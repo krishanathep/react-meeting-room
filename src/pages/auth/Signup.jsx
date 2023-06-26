@@ -7,8 +7,10 @@ export default function Signup() {
   const navigate = useNavigate()
   const { register, handleSubmit,  formState: { errors } } = useForm();
 
+  const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
+
   const onSubmit = async data => {
-    await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/register', data)
+    await axios.post(REACT_APP_API, data)
       .then((res)=>{
         console.log(res)
         navigate('/auth/signin')
@@ -36,7 +38,7 @@ export default function Signup() {
               </div>
             </div>
             <div className="input-group mb-3">
-            <input className="form-control" type="email" {...register("email", { required: true })} />
+            <input className="form-control" type="email" {...register("name", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-envelope" />

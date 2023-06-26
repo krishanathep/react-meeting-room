@@ -8,21 +8,20 @@ export default function Signin() {
   const navigate = useNavigate()
   const signIn = useSignIn()
   const { register, handleSubmit,  formState: { errors } } = useForm();
-  const REACT_APP_API = 'http://full-stack-app.com/laravel_auth_jwt/public/api/login'
+  const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
 
   const onSubmit = async data => {
     try {
-      //await axios.post(`${process.env.REACT_APP_API}/login`, data)
       await axios.post(REACT_APP_API, data)
         .then((res)=>{
 
-          const token = res.data.access_token
+          const token = res.data.token
 
           if(token != null) {
             if(signIn({
-              token: res.data.access_token,
-              expiresIn: res.data.expires_in,
-              authState: res.data.user,
+              token: res.data.token,
+              authState: res.data.payload.user,
+              expiresIn: 60,
               tokenType: "Bearer",
             })){
               navigate('/')
@@ -49,9 +48,9 @@ export default function Signin() {
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {errors.email && <span className="text-danger">This username field is required</span>}
+              {errors.name && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("email", { required: true })} />
+                <input className="form-control" type="email" {...register("name", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
@@ -78,9 +77,9 @@ export default function Signin() {
                 </div>
               </form>
               <p className="mb-0 mt-2">
-                <Link to={'/auth/signup'} className="text-center">
+                {/* <Link to={'/auth/signup'} className="text-center">
                   Register a new membership
-                </Link>
+                </Link> */}
               </p>
             </div>
           </div>
