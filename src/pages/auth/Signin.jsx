@@ -8,10 +8,12 @@ export default function Signin() {
   const navigate = useNavigate()
   const signIn = useSignIn()
   const { register, handleSubmit,  formState: { errors } } = useForm();
+  const REACT_APP_API = 'http://full-stack-app.com/laravel_auth_jwt/public/api/login'
 
   const onSubmit = async data => {
     try {
-      await axios.post('http://full-stack-app.com/laravel_auth_jwt/public/api/login', data)
+      //await axios.post(`${process.env.REACT_APP_API}/login`, data)
+      await axios.post(REACT_APP_API, data)
         .then((res)=>{
 
           const token = res.data.access_token
