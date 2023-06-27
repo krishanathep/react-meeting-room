@@ -48,9 +48,9 @@ export default function Signin() {
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {errors.name && <span className="text-danger">This username field is required</span>}
+              {errors.email && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("name", { required: true })} />
+                <input className="form-control" type="email" {...register("email", { required: true })} />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
@@ -77,9 +77,9 @@ export default function Signin() {
                 </div>
               </form>
               <p className="mb-0 mt-2">
-                {/* <Link to={'/auth/signup'} className="text-center">
+                <Link to={'/auth/signup'} className="text-center">
                   Register a new membership
-                </Link> */}
+                </Link>
               </p>
             </div>
           </div>

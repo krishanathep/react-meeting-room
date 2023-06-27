@@ -7,7 +7,7 @@ export default function Signup() {
   const navigate = useNavigate()
   const { register, handleSubmit,  formState: { errors } } = useForm();
 
-  const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
+  const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/register'
 
   const onSubmit = async data => {
     await axios.post(REACT_APP_API, data)
@@ -37,14 +37,16 @@ export default function Signup() {
                 </div>
               </div>
             </div>
+            {errors.name && <span className="text-danger">This username field is required</span>}
             <div className="input-group mb-3">
-            <input className="form-control" type="email" {...register("name", { required: true })} />
+            <input className="form-control" type="email" {...register("email", { required: true })} />
               <div className="input-group-append">
                 <div className="input-group-text">
                   <span className="fas fa-envelope" />
                 </div>
               </div>
             </div>
+            {errors.email && <span className="text-danger">This username field is required</span>}
             <div className="input-group mb-3">
             <input className="form-control" type="password" {...register("password", { required: true })} />
               <div className="input-group-append">
@@ -53,6 +55,7 @@ export default function Signup() {
                 </div>
               </div>
             </div>
+            {errors.password && <span className="text-danger">This username field is required</span>}
             <div className="input-group mb-3">
             <input className="form-control" type="password" {...register("password_confirmation", { required: true })} />
               <div className="input-group-append">
@@ -61,6 +64,7 @@ export default function Signup() {
                 </div>
               </div>
             </div>
+            {errors.password_confirmation && <span className="text-danger">This username field is required</span>}
             <div className="row">
               <div className="col-8">
               </div>
