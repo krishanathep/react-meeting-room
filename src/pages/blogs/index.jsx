@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import axios from "axios";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 const blogs = () => {
   //create popup
@@ -69,7 +69,12 @@ const blogs = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        Swal.fire({
+          icon: 'success',
+          title: 'Your blog has been deleted',
+          showConfirmButton: false,
+          timer: 2000
+        });
         axios
           .delete(
             "https://express-mongodb-api-server.onrender.com/api/blogs/" +
@@ -126,6 +131,12 @@ const blogs = () => {
         console.log(res.data);
         getData();
         setEditShow(false);
+        Swal.fire({
+          icon: 'success',
+          title: 'Your blog has been edited',
+          showConfirmButton: false,
+          timer: 2000
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -142,7 +153,18 @@ const blogs = () => {
       .then((res) => {
         console.log(res.data);
         getData();
+        reset({
+          title: "",
+          content: "",
+          author: "",
+        });
         setCreateShow(false);
+        Swal.fire({
+          icon: 'success',
+          title: 'Your blog has been created',
+          showConfirmButton: false,
+          timer: 2000
+        })
       })
       .catch((error) => {
         console.log(error);

@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form"
 import { useSignIn } from 'react-auth-kit'
 import { Link, useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 import axios from 'axios'
 
 export default function Signin() {
   const navigate = useNavigate()
   const signIn = useSignIn()
-  const { register, handleSubmit,  formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
 
   const onSubmit = async data => {
@@ -31,12 +32,21 @@ export default function Signin() {
           }
         })
     } catch(error){
-      console.log(error)
+      console.log(error.response.data)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: error.response.data,
+      })
+      reset({
+        email: "",
+        password: "",
+      });
     }
   }
 
   return (
-    <>
+    <body>
       <div className="hold-transition login-page">
         <div className="login-box">
           <div className="login-logo">
@@ -44,28 +54,28 @@ export default function Signin() {
               <b>Admin</b>LTE
             </a>
           </div>
-          <div className="card">
+          <div  id="auth_bg" className="card">
             <div className="card-body login-card-body">
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
-              {errors.email && <span className="text-danger">This username field is required</span>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("email", { required: true })} />
+                <input className="form-control" type="email" {...register("email", { required: true })} placeholder="Email" />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
                     </div>
                   </div>
                 </div>
-                {errors.password && <span className="text-danger">This password field is required</span>}
+                {errors.email && <p className="text-danger">This username field is required</p>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="password" {...register("password", { required: true })} />
+                <input className="form-control" type="password" {...register("password", { required: true })} placeholder="Password" />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-lock" />
                     </div>
                   </div>
                 </div>
+                {errors.password && <p className="text-danger">This password field is required</p>}
                 <div className="row">
                   <div className="col-8">
                   </div>
@@ -85,7 +95,7 @@ export default function Signin() {
           </div>
         </div>
       </div>
-    </>
+    </body>
   );
 }
 
