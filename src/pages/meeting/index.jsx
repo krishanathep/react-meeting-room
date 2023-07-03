@@ -3,16 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Modal, Button, Col, Form, Row } from "react-bootstrap";
+import Preloader from "../../components/Preloader";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from 'sweetalert2'
 import moment from "moment";
 import dayjs from "dayjs";
 
+
 export default function meeting() {
   const localizer = momentLocalizer(moment);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false)
   const [events, setEvents] = useState([]);
   const [start,setStart] = useState('')
   const [end,setEnd] = useState('')
@@ -36,12 +39,19 @@ export default function meeting() {
   } = useForm();
 
   const getData = async () => {
-    await axios
+    try {
+      setLoading(true)
+      await axios
       .get("https://express-mongodb-api-server.onrender.com/api/events")
       .then((res) => {
         console.log(res.data);
         setEvents(res.data);
       });
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   };
 
   useEffect(() => {
@@ -105,6 +115,12 @@ export default function meeting() {
         setCreateShow(false)
         getData()
       })
+  }
+
+  if (loading === true) {
+    return(
+      <Preloader/>
+    )
   }
 
   return (

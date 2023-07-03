@@ -1,6 +1,34 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
+import Preloader from "../../components/Preloader";
+import axios from 'axios'
 
 export default function Home() {
+    const [loading, setLoading] = useState(false)
+
+    const blogsCount = async() => {
+      try {
+        setLoading(true)
+        await axios.get('https://express-mongodb-api-server.onrender.com/api/blogs/recordcount')
+          .then((res)=>{
+            console.log(res.data)
+          })
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    useEffect(()=>{
+      blogsCount()
+    })
+
+    if(loading === true) {
+      return(
+        <Preloader/>
+      )
+    }
+    
   return (
     <div className="content-wrapper">
       <div className="content-header">
