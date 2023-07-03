@@ -1,11 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import { useForm } from "react-hook-form"
 import { useSignIn } from 'react-auth-kit'
 import { Link, useNavigate } from 'react-router-dom'
+import Preloader from "../../components/Preloader";
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
 export default function Signin() {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const signIn = useSignIn()
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -13,6 +15,7 @@ export default function Signin() {
 
   const onSubmit = async data => {
     try {
+      setLoading(true)
       await axios.post(REACT_APP_API, data)
         .then((res)=>{
 
@@ -42,7 +45,15 @@ export default function Signin() {
         email: "",
         password: "",
       });
+    } finally {
+      setLoading(false)
     }
+  }
+
+  if(loading === true) {
+    return(
+      <Preloader/>
+    )
   }
 
   return (
