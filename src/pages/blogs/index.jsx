@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
-import { Modal, Button, Col, Form, Row } from "react-bootstrap";
+import { Modal, Button, Col, Form, Row, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
@@ -214,6 +214,13 @@ const blogs = () => {
                       fetching={loading}
                       idAccessor="_id"
                       columns={[
+                        { accessor: 'file',
+                          render: ({file}) => (
+                            <>
+                              <Image src={'https://express-mongodb-api-server.onrender.com/images/'+file} width={'150'} thumbnail />
+                            </>
+                          ),
+                        },
                         { accessor: "title" },
                         { accessor: "content" },
                         { accessor: "author" },
