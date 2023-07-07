@@ -148,8 +148,15 @@ const blogs = () => {
   };
 
   const handleCreateSubmit = async (data) => {
+    const formData = new FormData();
+
+    formData.append("file", data.file[0]);
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("author", data.author);
+   
     await axios
-      .post("https://express-mongodb-api-server.onrender.com/api/blogs", data)
+      .post("https://express-mongodb-api-server.onrender.com/api/blogs", formData)
       .then((res) => {
         console.log(res.data);
         getData();
@@ -206,7 +213,7 @@ const blogs = () => {
 
                     <DataTable
                       withBorder
-                      striped
+                      highlightOnHover
                       fontSize={"md"}
                       verticalSpacing="md"
                       paginationSize="md"
@@ -215,9 +222,11 @@ const blogs = () => {
                       idAccessor="_id"
                       columns={[
                         { accessor: 'file',
+                          title: 'Image',
+                          textAlignment: 'center',
                           render: ({file}) => (
                             <>
-                              <Image src={'https://express-mongodb-api-server.onrender.com/images/'+file} width={'150'} thumbnail />
+                              <Image src={'https://express-mongodb-api-server.onrender.com/images/'+file} width={'100'} thumbnail />
                             </>
                           ),
                         },
@@ -226,11 +235,13 @@ const blogs = () => {
                         { accessor: "author" },
                         {
                           accessor: "createdAt",
+                          textAlignment: 'center',
                           render: ({ createdAt }) =>
                             dayjs(createdAt).format("DD-MMMM- YYYY"),
                         },
                         {
                           accessor: "actions",
+                          textAlignment: 'center',
                           title: "Actions",
                           width: 200,
                           render: (blogs) => (
@@ -305,6 +316,12 @@ const blogs = () => {
                                 </span>
                               )}
                             </Form.Group>
+                            <div className="form-group ml-2">
+                                <label htmlFor="">File upload</label><br/>
+                                <input type="file"
+                                {...register("file", { required: true })}
+                                />
+                            </div>
                           </Row>
                         </Form>
                       </Modal.Body>
