@@ -1,7 +1,39 @@
 import React,{useState, useEffect} from "react";
+import axios from 'axios'
 
 export default function Home() {
-    
+
+  const [products, setProducts] = useState(0)
+  const [blogs, setBlogs] = useState(0)
+  const [bookings, setBookings] = useState(0)
+
+  const getProducts = async () => {
+    await axios.get('https://fakestoreapi.com/products')
+      .then((res)=>{
+        setProducts(res.data.length)
+      })
+    }
+
+    const getBlogs = async () => {
+      await axios.get('https://express-mongodb-api-server.onrender.com/api/blogs')
+        .then((res)=>{
+          setBlogs(res.data.length)
+        })
+    }
+
+    const getBookings = async () => {
+      await axios.get('https://express-mongodb-api-server.onrender.com/api/events')
+        .then((res)=>{
+          setBookings(res.data.length)
+        })
+    }
+
+    useEffect(()=>{
+      getBlogs()
+      getProducts()
+      getBookings()
+    },[])
+  
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -26,7 +58,7 @@ export default function Home() {
             <div className="col-lg-3">
               <div className="small-box bg-info">
                 <div className="inner">
-                  <h3>150</h3>
+                  <h3>{ products }</h3>
                   <p>New Orders</p>
                 </div>
                 <div className="icon">
@@ -40,11 +72,11 @@ export default function Home() {
             <div className="col-lg-3">
               <div className="small-box bg-success">
                 <div className="inner">
-                  <h3>90</h3>
-                  <p>User Registrations</p>
+                  <h3>{ blogs }</h3>
+                  <p>New post</p>
                 </div>
                 <div className="icon">
-                  <i className="fas fa-user-plus" />
+                  <i className="far fa-comment-dots"></i>
                 </div>
                 <a href="#" className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
@@ -54,7 +86,7 @@ export default function Home() {
             <div className="col-lg-3">
               <div className="small-box bg-danger">
                 <div className="inner">
-                  <h3>30</h3>
+                  <h3>{ bookings }</h3>
                   <p>New Bookings</p>
                 </div>
                 <div className="icon">

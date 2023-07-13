@@ -11,6 +11,7 @@ import MeetingVew from "./pages/meeting/view";
 import MeetingCreate from "./pages/meeting/create";
 import Blogs from "./pages/blogs";
 import Test from './pages/test'
+import Products from './pages/products'
 
 const RoutesPage = () => {
   return (
@@ -31,6 +32,7 @@ const RoutesPage = () => {
           <Route path="/meetings/" element={<Meeting />} />
           <Route path="/meetings/view/:id" element={<MeetingVew />} />
           <Route path="/meetings/create" element={<MeetingCreate />} />
+          <Route path="/products" element={<Products />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/test" element={<Test />}/>
         </Route>

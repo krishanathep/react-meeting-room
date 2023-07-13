@@ -41,6 +41,12 @@ export default function Sidebar() {
                   <p>Blogs post</p>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/products" className="nav-link">
+                  <i className="nav-icon fas fa-shopping-cart"></i>
+                  <p>Products</p>
+                </Link>
+              </li>
               <li className="nav-header">EXAMPLES</li>
               <li className="nav-item">
                 <Link to="/test" className="nav-link">
