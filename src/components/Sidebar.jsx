@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink as Link } from 'react-router-dom'
+import { NavLink as Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
@@ -25,7 +25,7 @@ export default function Sidebar() {
               <li className="nav-header">MAIN MENU</li>
               <li className="nav-item">
                 <Link to="/" className="nav-link">
-                <i className="nav-icon fas fa-tachometer-alt"></i>
+                  <i className="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
                 </Link>
               </li>
@@ -47,7 +47,13 @@ export default function Sidebar() {
                   <p>Products</p>
                 </Link>
               </li>
-              <li className="nav-header">EXAMPLES</li>
+              <li className="nav-item">
+                <Link to="/countries" className="nav-link">
+                <i className="nav-icon fas fa-globe-americas"></i>
+                  <p>Countries</p>
+                </Link>
+              </li>
+              <li className="nav-header">TEST MENU</li>
               <li className="nav-item">
                 <Link to="/test" className="nav-link">
                   <i className="nav-icon fas fa-vial"></i>
@@ -61,4 +67,3 @@ export default function Sidebar() {
     </>
   );
 }
-

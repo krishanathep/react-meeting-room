@@ -12,6 +12,7 @@ import MeetingCreate from "./pages/meeting/create";
 import Blogs from "./pages/blogs";
 import Test from './pages/test'
 import Products from './pages/products'
+import Countrises from "./pages/countries";
 
 const RoutesPage = () => {
   return (
@@ -34,6 +35,7 @@ const RoutesPage = () => {
           <Route path="/meetings/create" element={<MeetingCreate />} />
           <Route path="/products" element={<Products />} />
           <Route path="/blogs" element={<Blogs />} />
+          <Route path="/countries" element={<Countrises />}/>
           <Route path="/test" element={<Test />}/>
         </Route>
       </Routes>
