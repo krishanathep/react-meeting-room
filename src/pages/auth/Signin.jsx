@@ -11,7 +11,8 @@ export default function Signin() {
   const navigate = useNavigate()
   const signIn = useSignIn()
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
+  //const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
+  const REACT_APP_API = 'https://full-stack-app.com/laravel_auth_jwt/public/api/login'
 
   const onSubmit = async data => {
     try {
@@ -19,12 +20,12 @@ export default function Signin() {
       await axios.post(REACT_APP_API, data)
         .then((res)=>{
 
-          const token = res.data.token
+          const token = res.data.access_token
 
           if(token != null) {
             if(signIn({
-              token: res.data.token,
-              authState: res.data.payload.user,
+              token: res.data.access_token,
+              authState: res.data.user,
               expiresIn: 60,
               tokenType: "Bearer",
             })){
