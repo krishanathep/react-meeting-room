@@ -11,7 +11,6 @@ export default function Signin() {
   const navigate = useNavigate()
   const signIn = useSignIn()
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
-  //const REACT_APP_API = 'https://express-mongodb-api-server.onrender.com/api/auth/login'
   const REACT_APP_API = 'https://full-stack-app.com/laravel_auth_jwt_api/public/api/auth/login'
 
   const onSubmit = async data => {
@@ -71,7 +70,7 @@ export default function Signin() {
               <p className="login-box-msg">Sign in to start your session</p>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="input-group mb-3">
-                <input className="form-control" type="email" {...register("email", { required: true })} placeholder="Email" />
+                <input className="form-control" value={'test@gmail.com'} type="email" {...register("email", { required: true })} placeholder="Email" />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
@@ -80,7 +79,7 @@ export default function Signin() {
                 </div>
                 {errors.email && <p className="text-danger">This username field is required</p>}
                 <div className="input-group mb-3">
-                <input className="form-control" type="password" {...register("password", { required: true })} placeholder="Password" />
+                <input className="form-control" value={'123456'} type="password" {...register("password", { required: true })} placeholder="Password" />
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-lock" />

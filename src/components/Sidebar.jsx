@@ -41,7 +41,7 @@ export default function Sidebar() {
                   <p>Blogs post</p>
                 </Link>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <Link to="/products" className="nav-link">
                   <i className="nav-icon fas fa-shopping-cart"></i>
                   <p>Products</p>
@@ -59,7 +59,7 @@ export default function Sidebar() {
                   <i className="nav-icon fas fa-vial"></i>
                   <p>Test redux</p>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </div>

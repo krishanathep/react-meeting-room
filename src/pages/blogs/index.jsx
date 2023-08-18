@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
 import { Modal, Button, Col, Form, Row, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useAuthUser } from 'react-auth-kit'
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import axios from "axios";
@@ -9,6 +10,9 @@ import axios from "axios";
 const PAGE_SIZE = 10;
 
 const blogs = () => {
+  //user login
+  const userDatail = useAuthUser()
+
   //create popup
   const [createShow, setCreateShow] = useState(false);
   const CreateClose = () => setCreateShow(false);
@@ -46,10 +50,10 @@ const blogs = () => {
     const from = (page - 1) * PAGE_SIZE;
     const to = from + PAGE_SIZE;
     await axios
-      .get("https://express-mongodb-api-server.onrender.com/api/blogs")
+      .get("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blogs")
       .then((res) => {
-        setBlogs(res.data);
-        setRecords(res.data.slice(from, to));
+        setBlogs(res.data.blogs);
+        setRecords(res.data.blogs.slice(from, to));
         setLoading(false);
       });
   };
@@ -93,14 +97,14 @@ const blogs = () => {
 
     await axios
       .get(
-        "https://express-mongodb-api-server.onrender.com/api/blogs/" + blogs._id
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" + blogs.id
       )
       .then((res) => {
         console.log(res);
-        setTitle(res.data.title);
-        setContent(res.data.content);
-        setAuthor(res.data.author);
-        setCreated(res.data.createdAt)
+        setTitle(res.data.blog.title);
+        setContent(res.data.blog.content);
+        setAuthor(res.data.blog.author);
+        setCreated(res.data.blog.created_at)
       });
   };
 
@@ -116,7 +120,6 @@ const blogs = () => {
         reset({
           title: res.data.title,
           content: res.data.content,
-          author: res.data.author,
         });
       });
   };
@@ -148,15 +151,16 @@ const blogs = () => {
   };
 
   const handleCreateSubmit = async (data) => {
+
     const formData = new FormData();
 
-    formData.append("file", data.file[0]);
+    formData.append("image", data.image[0]);
     formData.append("title", data.title);
     formData.append("content", data.content);
     formData.append("author", data.author);
    
     await axios
-      .post("https://express-mongodb-api-server.onrender.com/api/blogs", formData)
+      .post("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-create", formData)
       .then((res) => {
         console.log(res.data);
         getData();
@@ -221,12 +225,12 @@ const blogs = () => {
                       fetching={loading}
                       idAccessor="_id"
                       columns={[
-                        { accessor: 'file',
+                        { accessor: 'image',
                           title: 'Image',
                           textAlignment: 'center',
-                          render: ({file}) => (
+                          render: ({image}) => (
                             <>
-                              <Image src={'https://express-mongodb-api-server.onrender.com/images/'+file} width={'100'} thumbnail />
+                              <Image src={'https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/'+image} width={'100'} thumbnail />
                             </>
                           ),
                         },
@@ -286,6 +290,7 @@ const blogs = () => {
                             <Form.Group as={Col} md="12">
                               <Form.Label>Title</Form.Label>
                               <Form.Control
+                                placeholder="Enter your title"
                                 {...register("title", { required: true })}
                               />
                               {errors.title && (
@@ -297,6 +302,7 @@ const blogs = () => {
                             <Form.Group as={Col} md="12">
                               <Form.Label>Content</Form.Label>
                               <Form.Control
+                                placeholder="Enter your content"
                                 {...register("content", { required: true })}
                               />
                               {errors.content && (
@@ -308,6 +314,7 @@ const blogs = () => {
                             <Form.Group as={Col} md="12">
                               <Form.Label>Author</Form.Label>
                               <Form.Control
+                                value={userDatail().name}
                                 {...register("author", { required: true })}
                               />
                               {errors.author && (
@@ -319,7 +326,7 @@ const blogs = () => {
                             <div className="form-group ml-2">
                                 <label htmlFor="">File upload</label><br/>
                                 <input type="file"
-                                {...register("file", { required: true })}
+                                {...register("image", { required: true })}
                                 />
                             </div>
                           </Row>
