@@ -45,6 +45,7 @@ const blogs = () => {
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [created, setCreated] = useState("");
+  const [image, setImage] = useState("");
 
   const getData = async () => {
     const from = (page - 1) * PAGE_SIZE;
@@ -81,8 +82,8 @@ const blogs = () => {
         });
         axios
           .delete(
-            "https://express-mongodb-api-server.onrender.com/api/blogs/" +
-              blogs._id
+            "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-delete/" +
+              blogs.id
           )
           .then((res) => {
             console.log(res);
@@ -105,6 +106,7 @@ const blogs = () => {
         setContent(res.data.blog.content);
         setAuthor(res.data.blog.author);
         setCreated(res.data.blog.created_at)
+        setImage(res.data.blog.image)
       });
   };
 
@@ -112,23 +114,34 @@ const blogs = () => {
     setEditShow(true);
     await axios
       .get(
-        "https://express-mongodb-api-server.onrender.com/api/blogs/" + blogs._id
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" + blogs.id
       )
       .then((res) => {
-        setEditId(res.data._id);
+        setEditId(res.data.blog.id);
         console.log(res);
         reset({
-          title: res.data.title,
-          content: res.data.content,
+          title: res.data.blog.title,
+          content: res.data.blog.content,
+          author: res.data.blog.author,
+          image: res.data.blog.image,
         });
       });
   };
 
   const handleEditSubmit = async (data) => {
+    
+    const formData = new FormData();
+
+    formData.append("_method", "put");
+    formData.append("image", data.image[0]);
+    formData.append("title", data.title);
+    formData.append("content", data.content);
+    formData.append("author", data.author);
+
     await axios
-      .put(
-        "https://express-mongodb-api-server.onrender.com/api/blogs/" + editid,
-        data
+      .post(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-update/" + editid,
+        formData
       )
       .then((res) => {
         console.log(res.data);
@@ -151,6 +164,8 @@ const blogs = () => {
   };
 
   const handleCreateSubmit = async (data) => {
+
+    console.log(data)
 
     const formData = new FormData();
 
@@ -225,12 +240,20 @@ const blogs = () => {
                       fetching={loading}
                       idAccessor="_id"
                       columns={[
-                        { accessor: 'image',
-                          title: 'Image',
-                          textAlignment: 'center',
-                          render: ({image}) => (
+                        {
+                          accessor: "image",
+                          title: "Image",
+                          textAlignment: "center",
+                          render: ({ image }) => (
                             <>
-                              <Image src={'https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/'+image} width={'100'} thumbnail />
+                              <Image
+                                src={
+                                  "https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/" +
+                                  image
+                                }
+                                width={"100"}
+                                thumbnail
+                              />
                             </>
                           ),
                         },
@@ -239,13 +262,13 @@ const blogs = () => {
                         { accessor: "author" },
                         {
                           accessor: "createdAt",
-                          textAlignment: 'center',
+                          textAlignment: "center",
                           render: ({ createdAt }) =>
                             dayjs(createdAt).format("DD-MMMM- YYYY"),
                         },
                         {
                           accessor: "actions",
-                          textAlignment: 'center',
+                          textAlignment: "center",
                           title: "Actions",
                           width: 200,
                           render: (blogs) => (
@@ -324,10 +347,12 @@ const blogs = () => {
                               )}
                             </Form.Group>
                             <div className="form-group ml-2">
-                                <label htmlFor="">File upload</label><br/>
-                                <input type="file"
+                              <label htmlFor="">File upload</label>
+                              <br />
+                              <input
+                                type="file"
                                 {...register("image", { required: true })}
-                                />
+                              />
                             </div>
                           </Row>
                         </Form>
@@ -386,6 +411,14 @@ const blogs = () => {
                                 </span>
                               )}
                             </Form.Group>
+                            <div className="form-group ml-2">
+                              <label htmlFor="">File upload</label>
+                              <br />
+                              <input
+                                type="file"
+                                {...register("image")}
+                              />
+                            </div>
                           </Row>
                         </Form>
                       </Modal.Body>
@@ -408,6 +441,12 @@ const blogs = () => {
                         <Modal.Title>View blog</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
+                        <Image
+                          className="mb-3"
+                          src={"https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/"+image}
+                          width={"500"}
+                          thumbnail
+                        />
                         <Form.Group>
                           <Form.Label>Title</Form.Label> : {title}
                         </Form.Group>
@@ -418,7 +457,8 @@ const blogs = () => {
                           <Form.Label>Author</Form.Label> : {author}
                         </Form.Group>
                         <Form.Group>
-                          <Form.Label>Created</Form.Label> : { dayjs(created).format("DD-MMMM- YYYY") }
+                          <Form.Label>Created</Form.Label> :{" "}
+                          {dayjs(created).format("DD-MMMM- YYYY")}
                         </Form.Group>
                       </Modal.Body>
                       <Modal.Footer>
