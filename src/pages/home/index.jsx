@@ -1,39 +1,33 @@
-import React,{useState, useEffect} from "react";
-import axios from 'axios'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Home() {
+  const [restuarent, setRestuarent] = useState(0);
+  const [blogs, setBlogs] = useState(0);
+  const [bookings, setBookings] = useState(0);
 
-  const [products, setProducts] = useState(0)
-  const [blogs, setBlogs] = useState(0)
-  const [bookings, setBookings] = useState(0)
+  const getAll = async () => {
+    await axios
+      .get(
+        "https://full-stack-app.com/laravel_restaurant_api/public/api/restaurants"
+      )
+      .then((res) => {
+        setRestuarent(res.data.restaurants.length);
+      });
 
-  const getProducts = async () => {
-    await axios.get('https://fakestoreapi.com/products')
-      .then((res)=>{
-        setProducts(res.data.length)
-      })
-    }
+    await axios.get("https://full-stack-app.com/laravel_auth_jwt_api/public/api/events").then((res) => {
+      setBookings(res.data.events.length);
+    });
 
-    const getBlogs = async () => {
-      await axios.get('https://express-mongodb-api-server.onrender.com/api/blogs')
-        .then((res)=>{
-          setBlogs(res.data.length)
-        })
-    }
+    await axios.get("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blogs").then((res) => {
+      setBlogs(res.data.blogs.length);
+    });
+  };
 
-    const getBookings = async () => {
-      await axios.get('https://express-mongodb-api-server.onrender.com/api/events')
-        .then((res)=>{
-          setBookings(res.data.length)
-        })
-    }
+  useEffect(() => {
+    getAll();
+  }, []);
 
-    useEffect(()=>{
-      getBlogs()
-      getProducts()
-      getBookings()
-    },[])
-  
   return (
     <div className="content-wrapper">
       <div className="content-header">
@@ -58,25 +52,11 @@ export default function Home() {
             <div className="col-lg-3">
               <div className="small-box bg-info">
                 <div className="inner">
-                  <h3>{ products }</h3>
-                  <p>New Orders</p>
+                  <h3>{restuarent}</h3>
+                  <p>New Restaurants</p>
                 </div>
                 <div className="icon">
-                  <i className="fas fa-shopping-cart" />
-                </div>
-                <a href="#" className="small-box-footer">
-                  More info <i className="fas fa-arrow-circle-right" />
-                </a>
-              </div>
-            </div>
-            <div className="col-lg-3">
-              <div className="small-box bg-success">
-                <div className="inner">
-                  <h3>{ blogs }</h3>
-                  <p>New post</p>
-                </div>
-                <div className="icon">
-                  <i className="far fa-comment-dots"></i>
+                  <i className="fas fa-utensils"></i>
                 </div>
                 <a href="#" className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
@@ -86,7 +66,7 @@ export default function Home() {
             <div className="col-lg-3">
               <div className="small-box bg-danger">
                 <div className="inner">
-                  <h3>{ bookings }</h3>
+                  <h3>{bookings}</h3>
                   <p>New Bookings</p>
                 </div>
                 <div className="icon">
@@ -98,7 +78,21 @@ export default function Home() {
               </div>
             </div>
             <div className="col-lg-3">
-              <div className="small-box bg-warning">
+              <div className="small-box bg-success">
+                <div className="inner">
+                  <h3>{blogs}</h3>
+                  <p>New Post</p>
+                </div>
+                <div className="icon">
+                  <i className="far fa-comment-dots"></i>
+                </div>
+                <a href="#" className="small-box-footer">
+                  More info <i className="fas fa-arrow-circle-right" />
+                </a>
+              </div>
+            </div>
+            <div className="col-lg-3">
+              <div className="small-box bg-primary">
                 <div className="inner">
                   <h3>200</h3>
                   <p>All Users</p>

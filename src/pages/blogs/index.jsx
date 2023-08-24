@@ -203,14 +203,14 @@ const blogs = () => {
           <div className="container-fluid">
             <div className="row mb-2">
               <div className="col-sm-6">
-                <h1 className="m-0">Blogs post</h1>
+                <h1 className="m-0">Webboard list</h1>
               </div>
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
                   <li className="breadcrumb-item">
                     <a href="#">Home</a>
                   </li>
-                  <li className="breadcrumb-item active">Blogs</li>
+                  <li className="breadcrumb-item active">Webboard</li>
                 </ol>
               </div>
             </div>
@@ -226,7 +226,7 @@ const blogs = () => {
                       className="btn btn-success mb-3"
                       onClick={handleCreateShow}
                     >
-                      <i className="fa fa-plus"></i> Create blog
+                      <i className="fa fa-plus"></i> Webboard
                     </button>
 
                     <DataTable
@@ -304,7 +304,7 @@ const blogs = () => {
                     {/* Create Blog Madal */}
                     <Modal centered show={createShow}>
                       <Modal.Header>
-                        <Modal.Title>Create blog</Modal.Title>
+                        <Modal.Title>Webboard create</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Form>
@@ -378,7 +378,7 @@ const blogs = () => {
                     {/* Edit Blog Madal */}
                     <Modal centered show={editShow}>
                       <Modal.Header>
-                        <Modal.Title>Edit blog</Modal.Title>
+                        <Modal.Title>Webboard update</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Form>
@@ -449,7 +449,7 @@ const blogs = () => {
                     {/* View Blog Madal */}
                     <Modal centered show={viewShow}>
                       <Modal.Header>
-                        <Modal.Title>View blog</Modal.Title>
+                        <Modal.Title>Webboard view</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Image

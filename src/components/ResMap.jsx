@@ -20,7 +20,7 @@ const Map = () => {
   const [restaurant, setRestaurant] = useState([])
 
   // url barck-end api
-  const APP_API = 'https://full-stack-app.com/laravel_restaurant_api/public/api/restaurants'
+  const APP_API = 'https://full-stack-app.com/laravel_auth_jwt_api/public/api/restaurants'
 
   // Get restaurant api from url
   const fetData = async() => {
@@ -51,7 +51,7 @@ const Map = () => {
           {/* create marker from api */}
           {restaurant.map((item)=>
             <Marker key={item.id} position={[item.latitude,item.longitude]}>
-              <Popup>{item.title}</Popup>
+              <Popup><img src={item.image} alt="" width={'100'} /></Popup>
             </Marker>
           )}
         </MapContainer>

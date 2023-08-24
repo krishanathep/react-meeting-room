@@ -9,7 +9,7 @@ const Restaurant = () => {
 
   // url barck-end api
   const APP_API =
-    "https://full-stack-app.com/laravel_restaurant_api/public/api/restaurants";
+    "https://full-stack-app.com/laravel_auth_jwt_api/public/api/restaurants";
 
   // Get restaurant api from url
   const fetchData = async () => {

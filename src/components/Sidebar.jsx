@@ -43,8 +43,8 @@ export default function Sidebar() {
               </li>
               <li className="nav-item">
                 <Link to="/blogs" className="nav-link">
-                  <i className="nav-icon fas fa-file"></i>
-                  <p>Blogs post</p>
+                  <i className="nav-icon fas fa-comment-dots"></i>
+                  <p>Webboard</p>
                 </Link>
               </li>
               {/* <li className="nav-item">
