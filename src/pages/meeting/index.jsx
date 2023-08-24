@@ -4,22 +4,21 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Modal, Button, Col, Form, Row } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useAuthUser } from "react-auth-kit";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import Swal from 'sweetalert2'
 import moment from "moment";
 import dayjs from "dayjs";
 
-
 export default function meeting() {
   const localizer = momentLocalizer(moment);
+  const userDatail = useAuthUser();
   const navigate = useNavigate();
 
   const [events, setEvents] = useState([]);
-  const [start,setStart] = useState('')
-  const [end,setEnd] = useState('')
-  const [title, setTitle] = useState('')
-  const [detail, setDetail] = useState('')
-  const [user, setUser] = useState('')
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
+  const [id, setEditId] = useState("");
 
   //create popup
   const [createShow, setCreateShow] = useState(false);
@@ -39,13 +38,15 @@ export default function meeting() {
   const getData = async () => {
     try {
       await axios
-      .get("https://express-mongodb-api-server.onrender.com/api/events")
-      .then((res) => {
-        console.log(res.data);
-        setEvents(res.data);
-      });
+        .get(
+          "https://full-stack-app.com/laravel_auth_jwt_api/public/api/events"
+        )
+        .then((res) => {
+          console.log(res.data.events);
+          setEvents(res.data.events);
+        });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -53,64 +54,84 @@ export default function meeting() {
     getData();
   }, []);
 
-  const hanldeDelete = (event) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-        axios
-          .delete(
-            "https://express-mongodb-api-server.onrender.com/api/events/" +
-              event._id
-          )
-          .then((res) => {
-            console.log(res);
-            setViewShow(false)
-            getData();
-          });
-      }
-    });
+  const handleDeleteEvent = () => {
+    axios
+      .delete(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/event-delete/" +
+          id
+      )
+      .then((res) => {
+        console.log(res.data.event);
+        setViewShow(false);
+        toast.success('Deleted Successfully!',{duration: 3000})
+        getData();
+      });
   };
 
-  const handleSelectMeeting = async(event) => {
-    setViewShow(true)
-    await axios.get('https://express-mongodb-api-server.onrender.com/api/events/'+ event._id)
-      .then((res)=>{
-        console.log(res)
-        setTitle(res.data.title)
-        setDetail(res.data.detail)
-        setUser(res.data.user)
-        setStart(res.data.start)
-        setEnd(res.data.end)
-      })
+  const handleSelectMeeting = async (event) => {
+    setViewShow(true);
+    await axios
+      .get(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/event/" +
+          event.id
+      )
+      .then((res) => {
+        console.log(res);
+        setEditId(res.data.event.id);
+        reset({
+          title: res.data.event.title,
+          detail: res.data.event.detail,
+          user: res.data.event.user,
+          start: res.data.event.start,
+          end: res.data.event.end,
+        });
+      });
   };
 
   const handleSelectEvent = ({ start, end }) => {
     setCreateShow(true);
-    setStart(dayjs(start).format("YYYY-MM-DD"))
-    setEnd(dayjs(end).format("YYYY-MM-DD"))
-    resetField('start')
-    resetField('end')
+    setStart(dayjs(start).format("YYYY-MM-DD"));
+    setEnd(dayjs(end).format("YYYY-MM-DD"));
+    resetField("start");
+    resetField("end");
   };
 
-  const handleCreateEvent = async (data) =>{
-    await axios.post('https://express-mongodb-api-server.onrender.com/api/events', data)
-      .then((res)=>{
-        console.log(res)
-        resetField('title')
-        resetField('detail')
-        resetField('user')
-        setCreateShow(false)
-        getData()
-      })
-  }
+  const handleUpdateEvent = async (data) => {
+    await axios
+      .put(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/event-update/" +
+          id,
+        data
+      )
+      .then((res) => {
+        console.log(res.data.event);
+        reset({
+          title: "",
+          detail: "",
+        });
+        setViewShow(false);
+        toast.success('Updated Successfully!',{duration: 3000})
+        getData();
+      });
+  };
+
+  const handleCreateEvent = async (data) => {
+    await axios
+      .post(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/event-create",
+        data
+      )
+      .then((res) => {
+        console.log(res.data.event);
+        reset({
+          title: "",
+          detail: "",
+        });
+        setCreateShow(false);
+        toast.success('Created Successfully!',{duration: 3000})
+        getData();
+      });
+  };
 
   return (
     <div className="content-wrapper">
@@ -136,6 +157,7 @@ export default function meeting() {
           <div className="row">
             <div className="col-lg-12">
               <div className="card card-outline card-primary">
+              <Toaster position="top-right" reverseOrder={false} />
                 <div className="card-body">
                   <Calendar
                     localizer={localizer}
@@ -149,91 +171,159 @@ export default function meeting() {
                   />
                   {/* Create Blog Madal */}
                   <Modal centered show={createShow}>
-                      <Modal.Header>
-                        <Modal.Title>Create Meeting</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <Form>
-                          <Row>
+                    <Modal.Header>
+                      <Modal.Title>Create Meeting</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form>
+                        <Row>
                           <Form.Group as={Col} md="12">
-                              <Form.Label>Title</Form.Label>
-                              <Form.Control
-                                {...register("title", { required: true })}
-                              />
-                            </Form.Group>
-                            <Form.Group as={Col} md="12">
-                              <Form.Label>Detail</Form.Label>
-                              <Form.Control
-                                as="textarea" rows={3}
-                                {...register("detail", { required: true })}
-                              />
-                            </Form.Group>
-                            <Form.Group as={Col} md="12">
-                              <Form.Label>User</Form.Label>
-                              <Form.Control
-                                {...register("user", { required: true })}
-                              />
-                            </Form.Group>
-                            <Form.Group as={Col} md="12">
-                              <Form.Label>Start</Form.Label>
-                              <Form.Control
-                                value={start}
-                                {...register("start", { required: true })}
-                              />
-                            </Form.Group>
-                            <Form.Group as={Col} md="12">
-                              <Form.Label>End</Form.Label>
-                              <Form.Control
-                                value={end}
-                                {...register("end", { required: true })}
-                              />
-                            </Form.Group>
-                          </Row>
-                        </Form>
-                      </Modal.Body>
-                      <Modal.Footer>
-                        <Button
-                          variant="primary"
-                          onClick={handleSubmit(handleCreateEvent)}
-                        >
-                          Save Changes
-                        </Button>
-                        <Button variant="secondary" onClick={CreateClose}>
-                          Close
-                        </Button>
-                      </Modal.Footer>
-                    </Modal>
-                     {/* View Blog Madal */}
-                     <Modal centered show={viewShow}>
-                      <Modal.Header>
-                        <Modal.Title>View Meeting</Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body>
-                        <Form.Group>
-                          <Form.Label>Title</Form.Label> : {title}
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>Detail</Form.Label> : {detail}
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>User</Form.Label> : {user}
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>Start</Form.Label> :  { dayjs(start).format("DD-MMMM-YYYY") }
-                        </Form.Group>
-                        <Form.Group>
-                          <Form.Label>End</Form.Label> :  { dayjs(end).format("DD-MMMM-YYYY") }
-                        </Form.Group>
-                      </Modal.Body>
-                      <Modal.Footer>
-                      <Button variant="danger" onClick={hanldeDelete}>
-                          Delete
-                        </Button>
-                        <Button variant="secondary" onClick={ViewClose}>
-                          Close
-                        </Button>
-                      </Modal.Footer>
-                    </Modal>
+                            {/* <Form.Label>User</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={userDatail().name}
+                              {...register("user", { required: true })}
+                            />
+                            {errors.user && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              {...register("title", { required: true })}
+                            />
+                            {errors.title && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            <Form.Label>Detail</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              {...register("detail", { required: true })}
+                            />
+                            {errors.detail && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            {/* <Form.Label>Start</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={start}
+                              {...register("start", { required: true })}
+                            />
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            {/* <Form.Label>End</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={end}
+                              {...register("end", { required: true })}
+                            />
+                          </Form.Group>
+                        </Row>
+                      </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        variant="primary"
+                        onClick={handleSubmit(handleCreateEvent)}
+                      >
+                        Submit
+                      </Button>
+                      <Button variant="secondary" onClick={CreateClose}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                  {/* Update Meeting Madal */}
+                  <Modal centered show={viewShow}>
+                    <Modal.Header>
+                      <Modal.Title>Update Meeting</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <Form>
+                        <Row>
+                          <Form.Group as={Col} md="12">
+                            {/* <Form.Label>User</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={userDatail().name}
+                              {...register("user", { required: true })}
+                            />
+                            {errors.user && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              {...register("title", { required: true })}
+                            />
+                            {errors.title && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            <Form.Label>Detail</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              {...register("detail", { required: true })}
+                            />
+                            {errors.detail && (
+                              <span className="text-danger">
+                                This field is required
+                              </span>
+                            )}
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            {/* <Form.Label>Start</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={start}
+                              {...register("start", { required: true })}
+                            />
+                          </Form.Group>
+                          <Form.Group as={Col} md="12">
+                            {/* <Form.Label>End</Form.Label> */}
+                            <Form.Control
+                              hidden
+                              value={end}
+                              {...register("end", { required: true })}
+                            />
+                          </Form.Group>
+                        </Row>
+                      </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button
+                        variant="primary"
+                        onClick={handleSubmit(handleUpdateEvent)}
+                      >
+                        Submit
+                      </Button>
+                      <Button variant="danger" onClick={handleDeleteEvent}>
+                        Delete
+                      </Button>
+                      <Button variant="secondary" onClick={ViewClose}>
+                        Close
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </div>
               </div>
             </div>

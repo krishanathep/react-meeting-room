@@ -123,7 +123,6 @@ const blogs = () => {
           title: res.data.blog.title,
           content: res.data.blog.content,
           author: res.data.blog.author,
-          image: res.data.blog.image,
         });
       });
   };
@@ -353,6 +352,12 @@ const blogs = () => {
                                 type="file"
                                 {...register("image", { required: true })}
                               />
+                              <br/>
+                              {errors.image && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </div>
                           </Row>
                         </Form>
@@ -418,6 +423,12 @@ const blogs = () => {
                                 type="file"
                                 {...register("image")}
                               />
+                              <br/>
+                              {errors.image && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
+                              )}
                             </div>
                           </Row>
                         </Form>
