@@ -7,12 +7,8 @@ import Signin from "./pages/auth/Signin";
 import Signup from "./pages/auth/Signup";
 import Home from "./pages/home";
 import Meeting from "./pages/meeting";
-import MeetingVew from "./pages/meeting/view";
-import MeetingCreate from "./pages/meeting/create";
 import Blogs from "./pages/blogs";
-import Test from './pages/test'
-import Products from './pages/products'
-import Countrises from "./pages/countries";
+import Restaurant from "./pages/restaurant";
 
 const RoutesPage = () => {
   return (
@@ -31,12 +27,8 @@ const RoutesPage = () => {
         >
           <Route path="/" element={<Home />} />
           <Route path="/meetings/" element={<Meeting />} />
-          <Route path="/meetings/view/:id" element={<MeetingVew />} />
-          <Route path="/meetings/create" element={<MeetingCreate />} />
-          <Route path="/products" element={<Products />} />
           <Route path="/blogs" element={<Blogs />} />
-          <Route path="/countries" element={<Countrises />}/>
-          <Route path="/test" element={<Test />}/>
+          <Route path="/restaurant" element={<Restaurant/>}/>
         </Route>
       </Routes>
     </Router>

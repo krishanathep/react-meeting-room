@@ -22,11 +22,17 @@ export default function Sidebar() {
               role="menu"
               data-accordion="false"
             >
-              <li className="nav-header">MAIN MENU</li>
+              {/* <li className="nav-header">MAIN MENU</li> */}
               <li className="nav-item">
                 <Link to="/" className="nav-link">
                   <i className="nav-icon fas fa-tachometer-alt"></i>
                   <p>Dashboard</p>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/restaurant" className="nav-link">
+                  <i className="nav-icon fas fa-utensils"></i>
+                  <p>Restaurent</p>
                 </Link>
               </li>
               <li className="nav-item">
@@ -42,12 +48,6 @@ export default function Sidebar() {
                 </Link>
               </li>
               {/* <li className="nav-item">
-                <Link to="/products" className="nav-link">
-                  <i className="nav-icon fas fa-shopping-cart"></i>
-                  <p>Products</p>
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link to="/countries" className="nav-link">
                 <i className="nav-icon fas fa-globe-americas"></i>
                   <p>Countries</p>

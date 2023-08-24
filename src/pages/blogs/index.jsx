@@ -421,7 +421,7 @@ const blogs = () => {
                               <br />
                               <input
                                 type="file"
-                                {...register("image")}
+                                {...register("image", { required: false })}
                               />
                               <br/>
                               {errors.image && (
