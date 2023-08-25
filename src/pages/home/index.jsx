@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, PureComponent } from "react";
 import axios from "axios";
 
 export default function Home() {
@@ -7,6 +7,7 @@ export default function Home() {
   const [bookings, setBookings] = useState(0);
 
   const getAll = async () => {
+    ChartJS.register(ArcElement, Tooltip, Legend);
     await axios
       .get(
         "https://full-stack-app.com/laravel_restaurant_api/public/api/restaurants"

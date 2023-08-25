@@ -26,6 +26,7 @@
     "react-hot-toast": "^2.4.1",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.6.1",
+    "recharts": "^2.8.0",
     "sweetalert2": "^11.7.12"
   },
   "devDependencies": {

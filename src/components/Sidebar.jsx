@@ -47,13 +47,13 @@ export default function Sidebar() {
                   <p>Webboard</p>
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link to="/countries" className="nav-link">
-                <i className="nav-icon fas fa-globe-americas"></i>
-                  <p>Countries</p>
+              <li className="nav-item">
+                <Link to="/chart" className="nav-link">
+                <i className="nav-icon fas fa-chart-pie"></i>
+                  <p>Chart-js</p>
                 </Link>
               </li>
-              <li className="nav-header">TEST MENU</li>
+              {/* <li className="nav-header">TEST MENU</li>
               <li className="nav-item">
                 <Link to="/test" className="nav-link">
                   <i className="nav-icon fas fa-vial"></i>
