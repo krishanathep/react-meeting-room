@@ -240,6 +240,13 @@ const blogs = () => {
                       idAccessor="_id"
                       columns={[
                         {
+                          accessor: 'index',
+                          title: '#',
+                          textAlignment: 'center',
+                          width: 80,
+                          render: (record) => records.indexOf(record) + 1,
+                        },
+                        {
                           accessor: "image",
                           title: "Image",
                           textAlignment: "center",

@@ -9,6 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
 
 const Chart = () => {
@@ -57,7 +58,6 @@ const Chart = () => {
     },
   ];
 
-
   return (
     <>
       <div className="content-wrapper">
@@ -81,11 +81,40 @@ const Chart = () => {
         <div className="content">
           <div className="container-fluid">
             <div className="row">
-            <div className="col-lg-6">
+              <div className="col-lg-6">
                 <div className="card">
                   <div className="card-body card-outline card-primary">
-                  <h5>Bar chart</h5>
-                  <BarChart
+                    <h5>Bar chart</h5>
+                    <ResponsiveContainer width={"100%"} height={300}>
+                      <BarChart
+                        width={600}
+                        height={300}
+                        data={data}
+                        margin={{
+                          top: 5,
+                          right: 30,
+                          left: 10,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="pv" fill="#8884d8" />
+                        <Bar dataKey="uv" fill="#82ca9d" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div className="card card-outline card-primary">
+                  <div className="card-body">
+                    <h5>Bar chart</h5>
+                    <ResponsiveContainer width={"100%"} height={300}>
+                    <BarChart
                       width={600}
                       height={300}
                       data={data}
@@ -104,32 +133,7 @@ const Chart = () => {
                       <Bar dataKey="pv" fill="#8884d8" />
                       <Bar dataKey="uv" fill="#82ca9d" />
                     </BarChart>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="card card-outline card-primary">
-                  <div className="card-body">
-                  <h5>Bar chart</h5>
-                  <BarChart
-                      width={600}
-                      height={300}
-                      data={data}
-                      margin={{
-                        top: 5,
-                        right: 30,
-                        left: 10,
-                        bottom: 5,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="pv" fill="#8884d8" />
-                      <Bar dataKey="uv" fill="#82ca9d" />
-                    </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </div>
@@ -137,6 +141,7 @@ const Chart = () => {
                 <div className="card card-outline card-primary">
                   <div className="card-body">
                     <h5>Line chart</h5>
+                    <ResponsiveContainer width={"100%"} height={300}>
                     <LineChart
                       width={600}
                       height={300}
@@ -149,6 +154,7 @@ const Chart = () => {
                       <XAxis dataKey="name" />
                       <YAxis />
                     </LineChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </div>
@@ -156,6 +162,7 @@ const Chart = () => {
                 <div className="card card-outline card-primary">
                   <div className="card-body">
                     <h5>Line chart</h5>
+                    <ResponsiveContainer width={"100%"} height={300}>
                     <LineChart
                       width={600}
                       height={300}
@@ -168,6 +175,7 @@ const Chart = () => {
                       <XAxis dataKey="name" />
                       <YAxis />
                     </LineChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </div>
