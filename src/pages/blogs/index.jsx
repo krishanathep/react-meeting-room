@@ -267,10 +267,10 @@ const blogs = () => {
                         { accessor: "content" },
                         { accessor: "author" },
                         {
-                          accessor: "createdAt",
+                          accessor: "created_at",
                           textAlignment: "center",
-                          render: ({ createdAt }) =>
-                            dayjs(createdAt).format("DD-MMMM- YYYY"),
+                          render: ({ created_at }) =>
+                            dayjs(created_at).format("DD-MMMM- YYYY"),
                         },
                         {
                           accessor: "actions",
