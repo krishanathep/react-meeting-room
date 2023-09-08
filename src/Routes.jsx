@@ -10,6 +10,8 @@ import Meeting from "./pages/meeting";
 import Blogs from "./pages/blogs";
 import Restaurant from "./pages/restaurant";
 import ChartJS from './pages/chart'
+import Movies from './pages/movies'
+import MovieDetail from './pages/movies/detail'
 
 const RoutesPage = () => {
   return (
@@ -31,6 +33,8 @@ const RoutesPage = () => {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/restaurant" element={<Restaurant/>}/>
           <Route path="/chart" element={<ChartJS/>}/>
+          <Route path="/movies" element={<Movies/>}/>
+          <Route path="/movies/detail" element={<MovieDetail />}/>
         </Route>
       </Routes>
     </Router>

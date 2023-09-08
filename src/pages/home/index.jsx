@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import axios from "axios";
 
 export default function Home() {
   const [restuarent, setRestuarent] = useState(0);
   const [blogs, setBlogs] = useState(0);
   const [bookings, setBookings] = useState(0);
+  const [results, setResults] = useState(0);
 
   const getAll = async () => {
     await axios
@@ -22,6 +24,10 @@ export default function Home() {
     await axios.get("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blogs").then((res) => {
       setBlogs(res.data.blogs.length);
     });
+    await axios.get('https://api.themoviedb.org/3/movie/popular?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US')
+    .then((res)=>{
+      setResults(res.data.results.length)
+    })
   };
 
   useEffect(() => {
@@ -53,56 +59,56 @@ export default function Home() {
               <div className="small-box bg-info">
                 <div className="inner">
                   <h3>{restuarent}</h3>
-                  <p>New Restaurants</p>
+                  <p>All Restaurants</p>
                 </div>
                 <div className="icon">
                   <i className="fas fa-utensils"></i>
                 </div>
-                <a href="#" className="small-box-footer">
+                <Link to={'/restaurant'} className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-lg-3">
               <div className="small-box bg-danger">
                 <div className="inner">
                   <h3>{bookings}</h3>
-                  <p>New Bookings</p>
+                  <p>All Bookings</p>
                 </div>
                 <div className="icon">
                   <i className="fas fa-calendar" />
                 </div>
-                <a href="#" className="small-box-footer">
+                <Link to={'/meetings'} className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-lg-3">
               <div className="small-box bg-success">
                 <div className="inner">
                   <h3>{blogs}</h3>
-                  <p>New Post</p>
+                  <p>All Post</p>
                 </div>
                 <div className="icon">
                   <i className="far fa-comment-dots"></i>
                 </div>
-                <a href="#" className="small-box-footer">
+                <Link to={'/blogs'} className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-lg-3">
               <div className="small-box bg-primary">
                 <div className="inner">
-                  <h3>200</h3>
-                  <p>All Users</p>
+                  <h3>{results}</h3>
+                  <p>All Movies</p>
                 </div>
                 <div className="icon">
-                  <i className="fas fa-users" />
+                  <i className="fas fa-photo-video"></i>
                 </div>
-                <a href="#" className="small-box-footer">
+                <Link to={'/movies'} className="small-box-footer">
                   More info <i className="fas fa-arrow-circle-right" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

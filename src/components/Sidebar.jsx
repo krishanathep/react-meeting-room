@@ -53,6 +53,12 @@ export default function Sidebar() {
                   <p>Chart-js</p>
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/movies" className="nav-link">
+                <i className="nav-icon  fas fa-photo-video"></i>
+                  <p>Movies</p>
+                </Link>
+              </li>
               {/* <li className="nav-header">TEST MENU</li>
               <li className="nav-item">
                 <Link to="/test" className="nav-link">

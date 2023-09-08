@@ -307,6 +307,7 @@ const blogs = () => {
                       recordsPerPage={PAGE_SIZE}
                       page={page}
                       onPageChange={(p) => setPage(p)}
+                    
                     />
                     {/* Create Blog Madal */}
                     <Modal centered show={createShow}>
