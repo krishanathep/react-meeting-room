@@ -34,7 +34,7 @@ const RoutesPage = () => {
           <Route path="/restaurant" element={<Restaurant/>}/>
           <Route path="/chart" element={<ChartJS/>}/>
           <Route path="/movies" element={<Movies/>}/>
-          <Route path="/movies/detail" element={<MovieDetail />}/>
+          <Route path="/movies/detail/:id" element={<MovieDetail />}/>
         </Route>
       </Routes>
     </Router>

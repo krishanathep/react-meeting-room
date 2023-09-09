@@ -15,7 +15,14 @@ const blogs = () => {
 
   //create popup
   const [createShow, setCreateShow] = useState(false);
-  const CreateClose = () => setCreateShow(false);
+
+  const CreateClose = () => {
+    reset({
+      title: "",
+      content: "",
+    });
+    setCreateShow(false)
+  }
 
   //edit popup
   const [editShow, setEditShow] = useState(false);
@@ -23,7 +30,16 @@ const blogs = () => {
 
   //view popup
   const [viewShow, setViewShow] = useState(false);
-  const ViewClose = () => setViewShow(false);
+
+  const ViewClose = () => {
+    reset({
+      image: "",
+      title: "",
+      content: "",
+      author: "",
+    });
+    setViewShow(false)
+  }
 
   //id for edit
   const [editid, setEditId] = useState("");

@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from "react";
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Movies = () => {
@@ -69,11 +70,13 @@ const Movies = () => {
               {searchMovie(results).map((movie)=>(
                 <div className="col-md-2" key={movie.id}>
                 <div className="card">
+                  <Link to={'/movies/detail/'+movie.id}>
                   <img
                     className="card-img-top"
                     src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+ movie.poster_path}
                     alt="Card image"
                   />
+                  </Link>
                   <div className="card-body">
                     <h4 className="card-title">{movie.title.substring(0,15)}</h4>
                     <p className="card-text text-muted">

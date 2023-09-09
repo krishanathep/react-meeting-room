@@ -1,6 +1,24 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const Detail = () => {
+
+  const endpoint = 'https://api.themoviedb.org/3/movie/${id}?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US&page=1'
+  const { id } = useParams();
+  const [detail, setDetail] = useState([]);
+
+  const getData = async () => {
+    await axios.get(`https://api.themoviedb.org/3/movie/${id}}?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US&page=1`)
+      .then((res)=>{
+        console.log(res.data)
+        setDetail(res.data)
+      })
+  }
+
+  useEffect(()=>{
+    getData()
+  },[])
   return (
     <>
     <div className="content-wrapper">
@@ -27,25 +45,28 @@ const Detail = () => {
       <div className="content">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-2"></div>
+            <div className="col-md-3"></div>
             <div className="col-md-6">
-            <div className="card">
+            <div className="card mb-5 mt-5">
                   <img
                     className="card-img-top"
-                    src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+'/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg'}
+                    src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2'+ detail.poster_path}
                     height={'500'}
-                    thumbnail
                     alt="Card image"
                   />
                   <div className="card-body">
-                    <h4 className="card-title">title</h4>
+                    <h4 className="card-title">{detail.title}</h4>
                     <p className="card-text text-muted">
-                      body
+                      {detail.overview}
                     </p>
+                   <div className='float-right'>
+                   <Link to={'/movies'} className='btn btn-primary'>Go back</Link>
+                   </div>
                   </div>
+                  
                 </div>
             </div>
-            <div className="col-md-2"></div>
+            <div className="col-md-3"></div>
           </div>
         </div>
       </div>
