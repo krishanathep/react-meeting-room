@@ -4,7 +4,6 @@ import axios from 'axios'
 
 const Detail = () => {
 
-  const endpoint = 'https://api.themoviedb.org/3/movie/${id}?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US&page=1'
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
 
