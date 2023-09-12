@@ -9,6 +9,7 @@ import Home from "./pages/home";
 import Meeting from "./pages/meeting";
 import Blogs from "./pages/blogs";
 import Restaurant from "./pages/restaurant";
+import RestDetail from './pages/restaurant/detail'
 import ChartJS from './pages/chart'
 import Movies from './pages/movies'
 import MovieDetail from './pages/movies/detail'
@@ -35,6 +36,7 @@ const RoutesPage = () => {
           <Route path="/chart" element={<ChartJS/>}/>
           <Route path="/movies" element={<Movies/>}/>
           <Route path="/movies/detail/:id" element={<MovieDetail />}/>
+          <Route path="/restaurant/detail/:id" element={<RestDetail/>}/>
         </Route>
       </Routes>
     </Router>

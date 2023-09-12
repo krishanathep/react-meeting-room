@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ResMap from "../../components/ResMap";
+import { Link } from 'react-router-dom'
 import axios from "axios";
 
 const Restaurant = () => {
@@ -76,11 +77,13 @@ const Restaurant = () => {
                   {searchRestaurant(restaurants).map((item) => (
                     <div className="col-md-3" key={item.id}>
                       <div className="card">
+                        <Link to={'/restaurant/detail/'+ item.id}>
                         <img
                           className="card-img-top"
                           src={item.image}
                           alt="Card image"
                         />
+                        </Link>
                         <div className="card-body">
                           <h4 className="card-title">{item.title}</h4>
                           <p className="card-text text-muted">{item.description.substring(0, 70)}</p>

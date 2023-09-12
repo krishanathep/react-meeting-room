@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import Preloader from "../../components/Preloader";
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 
@@ -6,18 +7,33 @@ const Detail = () => {
 
   const { id } = useParams();
   const [detail, setDetail] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const getData = async () => {
-    await axios.get(`https://api.themoviedb.org/3/movie/${id}}?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US&page=1`)
+    try {
+      setLoading(true)
+      await axios.get(`https://api.themoviedb.org/3/movie/${id}}?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US&page=1`)
       .then((res)=>{
         console.log(res.data)
         setDetail(res.data)
       })
+    } catch(error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(()=>{
     getData()
   },[])
+
+  if(loading === true) {
+    return(
+      <Preloader/>
+    )
+  }
+  
   return (
     <>
     <div className="content-wrapper">
@@ -61,8 +77,7 @@ const Detail = () => {
                    <div className='float-right'>
                    <Link to={'/movies'} className='btn btn-primary'>Go back</Link>
                    </div>
-                  </div>
-                  
+                  </div>    
                 </div>
             </div>
             <div className="col-md-3"></div>
