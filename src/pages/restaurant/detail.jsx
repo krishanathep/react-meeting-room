@@ -77,7 +77,10 @@ const Detail = () => {
                     <h4 className="card-title">{rest.title}</h4>
                     <p className="card-text text-muted">{rest.description}</p>
                     <div className="float-right">
-                      <Link to={"/restaurant"} className="btn btn-primary">
+                      <Link className="btn btn-outline-primary" to={'/restaurant/map/'+ rest.id}>
+                      Click Map
+                      </Link>{' '}
+                      <Link to={"/restaurant"} className="btn btn-danger">
                         Go back
                       </Link>
                     </div>
