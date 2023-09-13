@@ -43,7 +43,7 @@ const Detail = () => {
           <div className="container-fluid">
             <div className="row mb-2">
               <div className="col-sm-6">
-                <h1 className="m-0">Restaurant detail</h1>
+                <h1 className="m-0">Restaurant search detail</h1>
               </div>
               <div className="col-sm-6">
                 <ol className="breadcrumb float-sm-right">
@@ -78,7 +78,7 @@ const Detail = () => {
                     <p className="card-text text-muted">{rest.description}</p>
                     <div className="float-right">
                       <Link className="btn btn-outline-primary" to={'/restaurant/map/'+ rest.id}>
-                      Click Map
+                      Go to map
                       </Link>{' '}
                       <Link to={"/restaurant"} className="btn btn-danger">
                         Go back
