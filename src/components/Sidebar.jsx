@@ -22,7 +22,7 @@ export default function Sidebar() {
               role="menu"
               data-accordion="false"
             >
-              {/* <li className="nav-header">MAIN MENU</li> */}
+              <li className="nav-header">MAIN MENU</li>
               <li className="nav-item">
                 <Link to="/" className="nav-link">
                   <i className="nav-icon fas fa-tachometer-alt"></i>
@@ -61,9 +61,9 @@ export default function Sidebar() {
               </li>
               {/* <li className="nav-header">TEST MENU</li>
               <li className="nav-item">
-                <Link to="/test" className="nav-link">
+                <Link to="/test/table" className="nav-link">
                   <i className="nav-icon fas fa-vial"></i>
-                  <p>Test redux</p>
+                  <p>Table</p>
                 </Link>
               </li> */}
             </ul>

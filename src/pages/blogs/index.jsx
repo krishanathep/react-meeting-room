@@ -3,11 +3,12 @@ import { DataTable } from "mantine-datatable";
 import { Modal, Button, Col, Form, Row, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useAuthUser } from 'react-auth-kit'
+
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import axios from "axios";
 
-const PAGE_SIZE = 10;
+const PAGE_SIZES = [10, 20, 30];
 
 const blogs = () => {
   //user login
@@ -44,10 +45,17 @@ const blogs = () => {
   //id for edit
   const [editid, setEditId] = useState("");
 
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
   const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize]);
+
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [records, setRecords] = useState(blogs.slice(0, PAGE_SIZE));
+  const [records, setRecords] = useState(blogs.slice(0, pageSize));
+  
 
   const {
     register,
@@ -64,8 +72,9 @@ const blogs = () => {
   const [image, setImage] = useState("");
 
   const getData = async () => {
-    const from = (page - 1) * PAGE_SIZE;
-    const to = from + PAGE_SIZE;
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize;
+
     await axios
       .get("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blogs")
       .then((res) => {
@@ -77,7 +86,7 @@ const blogs = () => {
 
   useEffect(() => {
     getData();
-  }, [page]);
+  }, [page, pageSize]);
 
   const hanldeDelete = (blogs) => {
     Swal.fire({
@@ -320,10 +329,11 @@ const blogs = () => {
                       records={records}
                       minHeight={150}
                       totalRecords={blogs.length}
-                      recordsPerPage={PAGE_SIZE}
+                      recordsPerPage={pageSize}
                       page={page}
                       onPageChange={(p) => setPage(p)}
-                    
+                      recordsPerPageOptions={PAGE_SIZES}
+                      onRecordsPerPageChange={setPageSize}
                     />
                     {/* Create Blog Madal */}
                     <Modal centered show={createShow}>
