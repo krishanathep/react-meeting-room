@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "mantine-datatable";
 import { Modal, Button, Col, Form, Row, Image } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useAuthUser } from 'react-auth-kit'
+import { useAuthUser } from "react-auth-kit";
 
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
@@ -12,7 +12,7 @@ const PAGE_SIZES = [10, 20, 30];
 
 const blogs = () => {
   //user login
-  const userDatail = useAuthUser()
+  const userDatail = useAuthUser();
 
   //create popup
   const [createShow, setCreateShow] = useState(false);
@@ -22,8 +22,8 @@ const blogs = () => {
       title: "",
       content: "",
     });
-    setCreateShow(false)
-  }
+    setCreateShow(false);
+  };
 
   //edit popup
   const [editShow, setEditShow] = useState(false);
@@ -39,8 +39,8 @@ const blogs = () => {
       content: "",
       author: "",
     });
-    setViewShow(false)
-  }
+    setViewShow(false);
+  };
 
   //id for edit
   const [editid, setEditId] = useState("");
@@ -55,7 +55,6 @@ const blogs = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [records, setRecords] = useState(blogs.slice(0, pageSize));
-  
 
   const {
     register,
@@ -100,10 +99,10 @@ const blogs = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          icon: 'success',
-          title: 'Your blog has been deleted',
+          icon: "success",
+          title: "Your blog has been deleted",
           showConfirmButton: false,
-          timer: 2000
+          timer: 2000,
         });
         axios
           .delete(
@@ -123,15 +122,16 @@ const blogs = () => {
 
     await axios
       .get(
-        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" + blogs.id
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" +
+          blogs.id
       )
       .then((res) => {
         console.log(res);
         setTitle(res.data.blog.title);
         setContent(res.data.blog.content);
         setAuthor(res.data.blog.author);
-        setCreated(res.data.blog.created_at)
-        setImage(res.data.blog.image)
+        setCreated(res.data.blog.created_at);
+        setImage(res.data.blog.image);
       });
   };
 
@@ -139,7 +139,8 @@ const blogs = () => {
     setEditShow(true);
     await axios
       .get(
-        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" + blogs.id
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog/" +
+          blogs.id
       )
       .then((res) => {
         setEditId(res.data.blog.id);
@@ -153,7 +154,6 @@ const blogs = () => {
   };
 
   const handleEditSubmit = async (data) => {
-    
     const formData = new FormData();
 
     formData.append("_method", "put");
@@ -164,7 +164,8 @@ const blogs = () => {
 
     await axios
       .post(
-        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-update/" + editid,
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-update/" +
+          editid,
         formData
       )
       .then((res) => {
@@ -172,11 +173,11 @@ const blogs = () => {
         getData();
         setEditShow(false);
         Swal.fire({
-          icon: 'success',
-          title: 'Your blog has been edited',
+          icon: "success",
+          title: "Your blog has been edited",
           showConfirmButton: false,
-          timer: 2000
-        })
+          timer: 2000,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -188,8 +189,7 @@ const blogs = () => {
   };
 
   const handleCreateSubmit = async (data) => {
-
-    console.log(data)
+    console.log(data);
 
     const formData = new FormData();
 
@@ -197,9 +197,12 @@ const blogs = () => {
     formData.append("title", data.title);
     formData.append("content", data.content);
     formData.append("author", data.author);
-   
+
     await axios
-      .post("https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-create", formData)
+      .post(
+        "https://full-stack-app.com/laravel_auth_jwt_api/public/api/blog-create",
+        formData
+      )
       .then((res) => {
         console.log(res.data);
         getData();
@@ -210,11 +213,11 @@ const blogs = () => {
         });
         setCreateShow(false);
         Swal.fire({
-          icon: 'success',
-          title: 'Your blog has been created',
+          icon: "success",
+          title: "Your blog has been created",
           showConfirmButton: false,
-          timer: 2000
-        })
+          timer: 2000,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -247,13 +250,18 @@ const blogs = () => {
               <div className="col-lg-12">
                 <div className="card card-outline card-primary">
                   <div className="card-body">
-                    <button
-                      className="btn btn-success mb-3"
-                      onClick={handleCreateShow}
-                    >
-                      <i className="fa fa-plus"></i> Webboard
-                    </button>
-
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="float-right">
+                          <button
+                            className="btn btn-success mb-2"
+                            onClick={handleCreateShow}
+                          >
+                            <i className="fa fa-plus"></i> Webboard
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     <DataTable
                       withBorder
                       highlightOnHover
@@ -265,9 +273,9 @@ const blogs = () => {
                       idAccessor="_id"
                       columns={[
                         {
-                          accessor: 'index',
-                          title: '#',
-                          textAlignment: 'center',
+                          accessor: "index",
+                          title: "#",
+                          textAlignment: "center",
                           width: 80,
                           render: (record) => records.indexOf(record) + 1,
                         },
@@ -386,7 +394,7 @@ const blogs = () => {
                                 type="file"
                                 {...register("image", { required: true })}
                               />
-                              <br/>
+                              <br />
                               {errors.image && (
                                 <span className="text-danger">
                                   This field is required
@@ -457,7 +465,7 @@ const blogs = () => {
                                 type="file"
                                 {...register("image", { required: false })}
                               />
-                              <br/>
+                              <br />
                               {errors.image && (
                                 <span className="text-danger">
                                   This field is required
@@ -488,7 +496,10 @@ const blogs = () => {
                       <Modal.Body>
                         <Image
                           className="mb-3"
-                          src={"https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/"+image}
+                          src={
+                            "https://full-stack-app.com/laravel_auth_jwt_api/public/uploads/" +
+                            image
+                          }
                           width={"500"}
                           thumbnail
                         />
