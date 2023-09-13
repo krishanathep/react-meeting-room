@@ -36,6 +36,12 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to="/foods" className="nav-link">
+                <i className="nav-icon fas fa-hamburger"></i>
+                  <p>Foods</p>
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to="/meetings" className="nav-link">
                   <i className="nav-icon fas fa-calendar"></i>
                   <p>Meetings</p>
@@ -55,7 +61,7 @@ export default function Sidebar() {
               </li>
               <li className="nav-item">
                 <Link to="/movies" className="nav-link">
-                <i className="nav-icon  fas fa-photo-video"></i>
+                <i className="nav-icon fas fa-photo-video"></i>
                   <p>Movies</p>
                 </Link>
               </li>

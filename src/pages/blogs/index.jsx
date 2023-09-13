@@ -313,19 +313,22 @@ const blogs = () => {
                           render: (blogs) => (
                             <>
                               <Button
-                                variant="primary"
+                                variant="primary" 
+                                size="sm"
                                 onClick={() => handleViewShow(blogs)}
                               >
                                 <i className="fa fa-eye"></i>
                               </Button>{" "}
                               <Button
                                 variant="info"
+                                size="sm"
                                 onClick={() => handleEditShow(blogs)}
                               >
                                 <i className="fa fa-edit"></i>
                               </Button>{" "}
                               <Button
                                 variant="danger"
+                                size="sm"
                                 onClick={() => hanldeDelete(blogs)}
                               >
                                 <i className="fa fa-trash"></i>
@@ -335,7 +338,7 @@ const blogs = () => {
                         },
                       ]}
                       records={records}
-                      minHeight={150}
+                      minHeight={200}
                       totalRecords={blogs.length}
                       recordsPerPage={pageSize}
                       page={page}

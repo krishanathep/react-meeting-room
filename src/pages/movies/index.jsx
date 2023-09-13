@@ -1,21 +1,26 @@
 import React,{useState,useEffect} from "react";
+import Preloader from "../../components/Preloader";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Movies = () => {
+  const [loading, setLoading] = useState(false)
   const[results,setResults]=useState([])
   const [rest, setRest] = useState("");
   const [dataFilter] = useState(["title","original_title"]);
 
   const getData = async () => {
     try {
+      setLoading(true)
       await axios.get('https://api.themoviedb.org/3/movie/popular?api_key=54cd1af69dd6dc43fcfdfc3a29bef89b&language=en-US')
       .then((res)=>{
         console.log(res.data.results)
         setResults(res.data.results)
       })
     } catch(error) {
-      console.error(error)
+      console.log(error)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -30,6 +35,12 @@ const Movies = () => {
   useEffect(()=>{
     getData()
   },[])
+
+  if(loading === true) {
+    return(
+      <Preloader/>
+    )
+  }
 
   return (
     <>

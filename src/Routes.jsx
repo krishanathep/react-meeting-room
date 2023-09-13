@@ -15,6 +15,8 @@ import ChartJS from './pages/chart'
 import Movies from './pages/movies'
 import MovieDetail from './pages/movies/detail'
 import TableTest from './pages/test/table'
+import FoodsEasy from './pages/foods'
+import FoodDetail from './pages/foods/detail'
 
 const RoutesPage = () => {
   return (
@@ -41,6 +43,8 @@ const RoutesPage = () => {
           <Route path="/restaurant/detail/:id" element={<RestDetail/>}/>
           <Route path="/restaurant/map/:id" element={<RestMapDetail/>}/>
           <Route path="/test/table" element={<TableTest/>}/>
+          <Route path="/foods" element={<FoodsEasy />}/>
+          <Route path="/food/detail/:id" element={<FoodDetail/>}/>
         </Route>
       </Routes>
     </Router>

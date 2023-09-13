@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import ResMap from "../../components/ResMap";
+import Preloader from "../../components/Preloader";
 import { Link } from 'react-router-dom'
 import axios from "axios";
 
 const Restaurant = () => {
+  const [loading, setLoading] = useState(false)
   const [restaurants, setRestaurants] = useState([]);
   const [rest, setRest] = useState("");
   const [dataFilter] = useState(["title", "category"]);
@@ -14,11 +16,19 @@ const Restaurant = () => {
 
   // Get restaurant api from url
   const fetchData = async () => {
-    await axios.get(APP_API).then((res) => {
+    try {
+      setLoading(true)
+      await axios.get(APP_API).then((res) => {
       console.log(res.data);
       setRestaurants(res.data.restaurants);
-    });
+      });
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -30,6 +40,12 @@ const Restaurant = () => {
        return item[filter].indexOf(rest)>-1
       })
     })
+  }
+
+  if(loading === true) {
+    return(
+      <Preloader/>
+    )
   }
 
   return (
