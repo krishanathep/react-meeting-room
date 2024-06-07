@@ -17,6 +17,8 @@ import MovieDetail from './pages/movies/detail'
 import TableTest from './pages/test/table'
 import FoodsEasy from './pages/foods'
 import FoodDetail from './pages/foods/detail'
+import Todo from './pages/todo'
+import TodoDetail from './pages/todo/detail'
 
 const RoutesPage = () => {
   return (
@@ -45,6 +47,8 @@ const RoutesPage = () => {
           <Route path="/test/table" element={<TableTest/>}/>
           <Route path="/foods" element={<FoodsEasy />}/>
           <Route path="/food/detail/:id" element={<FoodDetail/>}/>
+          <Route path="/todo" element={<Todo/>} />
+          <Route path="/todo/detail/:id" element={<TodoDetail/>} />
         </Route>
       </Routes>
     </Router>

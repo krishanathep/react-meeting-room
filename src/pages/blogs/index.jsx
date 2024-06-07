@@ -273,11 +273,12 @@ const blogs = () => {
                       idAccessor="_id"
                       columns={[
                         {
-                          accessor: "index",
+                          accessor: "record",
                           title: "#",
                           textAlignment: "center",
                           width: 80,
-                          render: (record) => records.indexOf(record) + 1,
+                          //Function generate number in column
+                          render: (record) => records.indexOf(record)+1,
                         },
                         {
                           accessor: "image",

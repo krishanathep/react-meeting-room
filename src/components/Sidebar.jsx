@@ -65,13 +65,13 @@ export default function Sidebar() {
                   <p>Movies</p>
                 </Link>
               </li>
-              {/* <li className="nav-header">TEST MENU</li>
+              <li className="nav-header">TEST MENU</li>
               <li className="nav-item">
-                <Link to="/test/table" className="nav-link">
-                  <i className="nav-icon fas fa-vial"></i>
-                  <p>Table</p>
+                <Link to="/todo" className="nav-link">
+                  <i className="nav-icon fas fa-home"></i>
+                  <p>Todo</p>
                 </Link>
-              </li> */}
+              </li>
             </ul>
           </nav>
         </div>
